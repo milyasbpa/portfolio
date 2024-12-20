@@ -1,0 +1,153 @@
+{
+  "hero": {
+    "title": "Ilyas Bashirah",
+    "message": "I'm Software Engineer",
+    "description": "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from 'de Finibus Bonorum et Malorum' by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
+    "menu": {
+      "items": [
+        {
+          "id": "experiences",
+          "name": "Work Experiences"
+        },
+        {
+          "id": "projects",
+          "name": "Projects"
+        },
+        {
+          "id": "blogs",
+          "name": "Blogs"
+        }
+      ]
+    },
+    "account": {
+      "items": [
+        {
+          "id": "github",
+          "url": "https://github.com/milyasbpa"
+        },
+        {
+          "id": "linkedin",
+          "url": "https://www.linkedin.com/in/ilyas-arya-b15010328"
+        },
+        {
+          "id": "duolingo",
+          "url": "https://www.duolingo.com/profile/milyasbpa"
+        },
+        {
+          "id": "hackerrank",
+          "url": "https://www.hackerrank.com/profile/baseliazt"
+        }
+      ]
+    }
+  },
+  "experience": {
+    "id": "experiences",
+    "title": "Work Experiences",
+    "cta": {
+      "primary": {
+        "children": "View Full Resume",
+        "url": ""
+      }
+    },
+    "items": [
+      {
+        "id": "1",
+        "position": "Senior Frontend Engineer",
+        "period": "2024-Current",
+        "company": "Klafiyo",
+        "company_link": "",
+        "description": "Build and maintain critical components used to construct Klafiyo's frontend, accross whole product. Work closely with cross functional teams, and product manager, to implement and advocate for best practices in web accessibility",
+        "skills": [
+          {
+            "id": "react",
+            "name": "React"
+          },
+          {
+            "id": "websocket",
+            "name": "Websocket"
+          }
+        ]
+      },
+      {
+        "id": "2",
+        "position": "Senior Frontend Engineer",
+        "period": "2024-2026",
+        "company": "BliBli",
+        "company_link": "",
+        "description": "Build and maintain critical components used to construct Klafiyo's frontend, accross whole product. Work closely with cross functional teams, and product manager, to implement and advocate for best practices in web accessibility",
+        "skills": [
+          {
+            "id": "react",
+            "name": "React"
+          }
+        ]
+      }
+    ]
+  },
+  "project": {
+    "id": "projects",
+    "title": "My Projects",
+    "cta": {
+      "primary": {
+        "children": "View Full Project Archive",
+        "url": "/projects"
+      }
+    },
+    "items": [
+      {
+        "id": "ocr",
+        "name": "OCR",
+        "image_url": "/images/home/projects/test_1.png",
+        "link": "",
+        "description": "Build and maintain critical components used to construct Klafiyo's frontend, accross whole product. Work closely with cross functional teams, and product manager, to implement and advocate for best practices in web accessibility",
+        "stack": [
+          {
+            "id": "ates",
+            "name": "sasd"
+          }
+        ]
+      },
+      {
+        "id": "dest",
+        "name": "Dest",
+        "image_url": "/images/home/projects/test_1.png",
+        "link": "",
+        "description": "Build and maintain critical components used to construct Klafiyo's frontend, accross whole product. Work closely with cross functional teams, and product manager, to implement and advocate for best practices in web accessibility",
+        "stack": [
+          {
+            "id": "ates",
+            "name": "sasd"
+          }
+        ]
+      }
+    ]
+  },
+  "blog": {
+    "id": "blogs",
+    "title": "Blogs",
+    "cta": {
+      "primary": {
+        "children": "View My Article",
+        "url": "/blog"
+      }
+    },
+    "items": [
+      {
+        "id": "1",
+        "name": "Singleton",
+        "image_url": "/images/home/blogs/test_1.png",
+        "link": "",
+        "description": "Build and maintain critical components used to construct Klafiyo's frontend, accross whole product. Work closely with cross functional teams, and product manager, to implement and advocate for best practices in web accessibility",
+        "tag": ["Design Pattern"]
+      },
+      {
+        "id": "1",
+        "name": "Singleton 2",
+        "image_url": "/images/home/blogs/test_1.png",
+        "link": "",
+        "description": "Build and maintain critical components used to construct Klafiyo's frontend, accross whole product. Work closely with cross functional teams, and product manager, to implement and advocate for best practices in web accessibility",
+        "tag": ["Design Pattern"]
+      }
+    ]
+  }
+}
