@@ -83,8 +83,6 @@ export const HomeContainer = () => {
                   </p>
                 </div>
               </div>
-
-              <MenuHome />
             </div>
 
             {/* social media */}

@@ -3,9 +3,17 @@ import * as React from "react";
 import clsx from "clsx";
 import { AppActionEnum, AppContext } from "../../context";
 import { FaMoon, FaSun } from "react-icons/fa";
+import { ScrollProgressApp } from "../../components/scroll_progress";
+import Link from "next/link";
+import { getDictionaries } from "../../i18n";
+import useIntersectionObserverForIds from "@/core/utils/ui/hooks/useIntersectionObserverForIds";
+import { motion } from "framer-motion";
 
 export const NavigationApp = () => {
   const { state, dispatch } = React.useContext(AppContext);
+  const dictionaries = getDictionaries();
+  const ids = dictionaries.navigation.menu.items.map((item) => item.id);
+  const activeIds = useIntersectionObserverForIds(ids, { threshold: 0.5 });
   const darkMode = state.theme.mode === "dark";
 
   React.useEffect(() => {
@@ -15,26 +23,6 @@ export const NavigationApp = () => {
       document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
-
-  const [scrollProgress, setScrollProgress] = React.useState<number>(0);
-
-  const handleScroll = () => {
-    const scrollTop =
-      document.documentElement.scrollTop || document.body.scrollTop;
-    const scrollHeight =
-      document.documentElement.scrollHeight -
-      document.documentElement.clientHeight;
-    const progress = (scrollTop / scrollHeight) * 100;
-    setScrollProgress(progress);
-  };
-
-  React.useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   const handleClickThemeMode = () => {
     dispatch({
@@ -61,8 +49,40 @@ export const NavigationApp = () => {
     >
       <div className={clsx("flex items-center justify-center", "w-full")}>
         <div
-          className={clsx("flex items-center justify-end", "w-full max-w-6xl")}
+          className={clsx(
+            "flex items-center justify-between",
+            "w-full max-w-6xl",
+            "px-[1rem]"
+          )}
         >
+          {/* menu */}
+          <div className={clsx("flex items-center justify-start gap-[1rem]")}>
+            {dictionaries.navigation.menu.items.map((menu, menuIndex) => (
+              <Link
+                href={`#${menu.id}`}
+                key={menuIndex}
+                className={clsx(
+                  "grid grid-flow-col items-center content-center justify-start justify-items-start gap-[0.5rem]"
+                )}
+              >
+                <motion.p
+                  animate={{
+                    opacity: activeIds.includes(menu.id) ? "100%" : "70%",
+                    fontWeight: activeIds.includes(menu.id) ? "700" : "600",
+                  }}
+                  whileHover={{
+                    opacity: "100%",
+                  }}
+                  className={clsx(
+                    "text-[0.875rem] text-dark18 dark:text-white"
+                  )}
+                >
+                  {menu.name}
+                </motion.p>
+              </Link>
+            ))}
+          </div>
+          {/* settings */}
           <button
             className={clsx(
               "w-[2rem] h-[2rem]",
@@ -79,10 +99,7 @@ export const NavigationApp = () => {
         </div>
       </div>
 
-      <div
-        className={clsx("bg-purple78", "h-[2px]")}
-        style={{ width: `${scrollProgress}%` }}
-      />
+      <ScrollProgressApp />
     </nav>
   );
 };
