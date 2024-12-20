@@ -10,6 +10,7 @@ import { BlogsHome } from "../fragments/blogs";
 import { MenuHome } from "../fragments/menu";
 import SVGIcon from "@/core/ui/icons";
 import { AppContext } from "@/core/modules/app/context";
+import { AboutHome } from "../fragments/about/About.home";
 
 export const HomeContainer = () => {
   const dictionaries = getDictionaries();
@@ -81,15 +82,6 @@ export const HomeContainer = () => {
                     {dictionaries.hero.message}
                   </p>
                 </div>
-
-                <p
-                  className={clsx(
-                    "text-[0.875rem] text-dark18 dark:text-grey90 font-medium"
-                  )}
-                  dangerouslySetInnerHTML={{
-                    __html: dictionaries.hero.description,
-                  }}
-                />
               </div>
 
               <MenuHome />
@@ -160,6 +152,7 @@ export const HomeContainer = () => {
             "w-full desktop:h-screen"
           )}
         >
+          <AboutHome />
           <ExperiencesHome />
           <ProjectsHome />
           <BlogsHome />
