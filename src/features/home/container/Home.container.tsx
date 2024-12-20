@@ -86,9 +86,10 @@ export const HomeContainer = () => {
                   className={clsx(
                     "text-[0.875rem] text-dark18 dark:text-grey90 font-medium"
                   )}
-                >
-                  {dictionaries.hero.description}
-                </p>
+                  dangerouslySetInnerHTML={{
+                    __html: dictionaries.hero.description,
+                  }}
+                />
               </div>
 
               <MenuHome />

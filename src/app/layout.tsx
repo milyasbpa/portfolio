@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     url: "https://ilyasbashirah.com",
     images: [
       {
-        url: "https://ilyasbashirah.com/og-image.jpg",
+        url: "https://ilyasbashirah.com/logo/favicon-16x16.png",
         width: 800,
         height: 600,
         alt: "Og Image Alt",
@@ -41,11 +41,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* google-site-verification=uwORxZ-BvNAIP6w5l2sPy-GTSXeLDK9hF3q1LpUnyqM */}
       <meta
         name="google-site-verification"
         content="uwORxZ-BvNAIP6w5l2sPy-GTSXeLDK9hF3q1LpUnyqM"
       />
+
       <body
         className={clsx(
           `${manrope.variable} antialiased`,
