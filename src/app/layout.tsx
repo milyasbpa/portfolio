@@ -41,6 +41,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/* google-site-verification=uwORxZ-BvNAIP6w5l2sPy-GTSXeLDK9hF3q1LpUnyqM */}
+      <meta
+        name="google-site-verification"
+        content="uwORxZ-BvNAIP6w5l2sPy-GTSXeLDK9hF3q1LpUnyqM"
+      />
       <body
         className={clsx(
           `${manrope.variable} antialiased`,
