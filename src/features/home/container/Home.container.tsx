@@ -7,7 +7,6 @@ import { SiDuolingo } from "react-icons/si";
 import { ExperiencesHome } from "../fragments/experiences/Experiences.home";
 import { ProjectsHome } from "../fragments/projects";
 import { BlogsHome } from "../fragments/blogs";
-import { MenuHome } from "../fragments/menu";
 import SVGIcon from "@/core/ui/icons";
 import { AppContext } from "@/core/modules/app/context";
 import { AboutHome } from "../fragments/about/About.home";
