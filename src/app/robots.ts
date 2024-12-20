@@ -12,6 +12,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: ["/"],
       },
     ],
-    sitemap: "https://personal-website-psi-hazel-83.vercel.app/sitemap.xml",
+    sitemap: "https://ilyasbashirah.com/sitemap.xml",
   };
 }

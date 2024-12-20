@@ -18,10 +18,10 @@ export const metadata: Metadata = {
     title: "Ilyas Arya",
     description:
       "Ilyas Arya is a software engineer who builds accessible, inclusive products and digital experiences for the web, application.",
-    url: "https://personal-website-psi-hazel-83.vercel.app",
+    url: "https://ilyasbashirah.com",
     images: [
       {
-        url: "https://personal-website-psi-hazel-83.vercel.app/og-image.jpg",
+        url: "https://ilyasbashirah.com/og-image.jpg",
         width: 800,
         height: 600,
         alt: "Og Image Alt",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   alternates: {
-    canonical: "https://personal-website-psi-hazel-83.vercel.app",
+    canonical: "https://ilyasbashirah.com",
   },
 };
 
