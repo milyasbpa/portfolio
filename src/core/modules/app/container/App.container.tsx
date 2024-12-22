@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { MenuApp } from "../fragments/menu";
 import { ScrollProgressApp } from "../fragments/scroll_progress";
 import { ThemeApp } from "../fragments/theme";
+import { LogoApp } from "../fragments/logo";
 
 export interface AppContainer {
   children?: React.ReactNode;
@@ -24,7 +25,7 @@ export const AppContainer = ({ children }: AppContainer) => {
           "top-0",
           "z-[20]",
           "w-full",
-          "opacity-80",
+          // "opacity-80",
           "px-[1.5rem] desktop:px-0",
           "pt-[1rem]",
           "bg-white dark:bg-[#171717]"
@@ -38,10 +39,11 @@ export const AppContainer = ({ children }: AppContainer) => {
               "px-[1rem]"
             )}
           >
-            {/* menu */}
-            <MenuApp />
+            <LogoApp />
             {/* settings */}
             <div className={clsx("flex items-center justify-end gap-[1rem]")}>
+              {/* menu */}
+              <MenuApp />
               {/* theme */}
               <ThemeApp />
             </div>

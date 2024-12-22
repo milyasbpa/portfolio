@@ -11,14 +11,14 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Ilyas Arya",
+  title: "Ilyas Bashirah",
   description:
-    "Ilyas Arya is a software engineer who builds accessible, inclusive products and digital experiences for the web, application.",
-  keywords: ["ilyas arya", "ilyas bashirah", "portfolio", "software engineer"],
+    "Crafting seamless digital experiences with React, Vue, Angular, Express—building the future, one framework at a time. 🚀💻 #SoftwareEngineer #Innovation",
+  keywords: ["ilyas bashirah", "portfolio", "software engineer"],
   openGraph: {
-    title: "Ilyas Arya",
+    title: "Ilyas Bashirah",
     description:
-      "Ilyas Arya is a software engineer who builds accessible, inclusive products and digital experiences for the web, application.",
+      "Crafting seamless digital experiences with React, Vue, Angular, Express—building the future, one framework at a time. 🚀💻 #SoftwareEngineer #Innovation",
     url: "https://ilyasbashirah.com",
     images: [
       {
