@@ -1,29 +1,18 @@
 "use client";
 import * as React from "react";
 import clsx from "clsx";
-import { FaMoon, FaSun } from "react-icons/fa";
 import { ScrollProgressApp } from "../../components/scroll_progress";
 import Link from "next/link";
 import { getDictionaries } from "../../i18n";
 import useIntersectionObserverForIds from "@/core/utils/ui/hooks/useIntersectionObserverForIds";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
+import { ThemeApp } from "../theme";
 
 export const NavigationApp = () => {
   const dictionaries = getDictionaries();
   const ids = dictionaries.navigation.menu.items.map((item) => item.id);
   const activeIds = useIntersectionObserverForIds(ids, { threshold: 0.5 });
-
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => setMounted(true), []);
-
-  if (!mounted) return null;
-
-  const handleClickThemeMode = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
 
   return (
     <nav
@@ -81,19 +70,7 @@ export const NavigationApp = () => {
           {/* settings */}
           <div className={clsx("flex items-center justify-end gap-[1rem]")}>
             {/* theme */}
-            <button
-              className={clsx(
-                "w-[2rem] h-[2rem]",
-                "flex items-center justify-center",
-                "rounded-[0.5rem]",
-                "dark:text-white text-dark25",
-                "border border-grey80 dark:border-dark18"
-              )}
-              aria-label="theme"
-              onClick={handleClickThemeMode}
-            >
-              {theme === "dark" ? <FaMoon size={16} /> : <FaSun size={16} />}
-            </button>
+            <ThemeApp />
           </div>
         </div>
       </div>
