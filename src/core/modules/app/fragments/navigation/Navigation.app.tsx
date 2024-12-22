@@ -2,18 +2,10 @@
 import * as React from "react";
 import clsx from "clsx";
 import { ScrollProgressApp } from "../../components/scroll_progress";
-import Link from "next/link";
-import { getDictionaries } from "../../i18n";
-import useIntersectionObserverForIds from "@/core/utils/ui/hooks/useIntersectionObserverForIds";
-import { motion } from "framer-motion";
-import { useTheme } from "next-themes";
 import { ThemeApp } from "../theme";
+import { MenuApp } from "../menu";
 
 export const NavigationApp = () => {
-  const dictionaries = getDictionaries();
-  const ids = dictionaries.navigation.menu.items.map((item) => item.id);
-  const activeIds = useIntersectionObserverForIds(ids, { threshold: 0.5 });
-
   return (
     <nav
       className={clsx(
@@ -37,36 +29,7 @@ export const NavigationApp = () => {
           )}
         >
           {/* menu */}
-          <div
-            className={clsx(
-              "hidden lg:flex items-center justify-start gap-[1rem]"
-            )}
-          >
-            {dictionaries.navigation.menu.items.map((menu, menuIndex) => (
-              <Link
-                href={`#${menu.id}`}
-                key={menuIndex}
-                className={clsx(
-                  "grid grid-flow-col items-center content-center justify-start justify-items-start gap-[0.5rem]"
-                )}
-              >
-                <motion.p
-                  animate={{
-                    opacity: activeIds.includes(menu.id) ? "100%" : "70%",
-                    fontWeight: activeIds.includes(menu.id) ? "700" : "600",
-                  }}
-                  whileHover={{
-                    opacity: "100%",
-                  }}
-                  className={clsx(
-                    "text-[0.875rem] text-dark18 dark:text-white"
-                  )}
-                >
-                  {menu.name}
-                </motion.p>
-              </Link>
-            ))}
-          </div>
+          <MenuApp />
           {/* settings */}
           <div className={clsx("flex items-center justify-end gap-[1rem]")}>
             {/* theme */}
