@@ -1,38 +1,30 @@
 "use client";
 import * as React from "react";
 import clsx from "clsx";
-import { AppActionEnum, AppContext } from "../../context";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { ScrollProgressApp } from "../../components/scroll_progress";
 import Link from "next/link";
 import { getDictionaries } from "../../i18n";
 import useIntersectionObserverForIds from "@/core/utils/ui/hooks/useIntersectionObserverForIds";
 import { motion } from "framer-motion";
+import { useTheme } from "next-themes";
 
 export const NavigationApp = () => {
-  const { state, dispatch } = React.useContext(AppContext);
   const dictionaries = getDictionaries();
   const ids = dictionaries.navigation.menu.items.map((item) => item.id);
   const activeIds = useIntersectionObserverForIds(ids, { threshold: 0.5 });
-  const darkMode = state.theme.mode === "dark";
 
-  React.useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null;
 
   const handleClickThemeMode = () => {
-    dispatch({
-      type: AppActionEnum.SetThemeData,
-      payload: {
-        ...state.theme,
-        mode: state.theme.mode === "dark" ? "light" : "dark",
-      },
-    });
+    setTheme(theme === "dark" ? "light" : "dark");
   };
+
   return (
     <nav
       className={clsx(
@@ -50,13 +42,17 @@ export const NavigationApp = () => {
       <div className={clsx("flex items-center justify-center", "w-full")}>
         <div
           className={clsx(
-            "flex items-center justify-between",
+            "flex items-center justify-end lg:justify-between",
             "w-full max-w-6xl",
             "px-[1rem]"
           )}
         >
           {/* menu */}
-          <div className={clsx("flex items-center justify-start gap-[1rem]")}>
+          <div
+            className={clsx(
+              "hidden lg:flex items-center justify-start gap-[1rem]"
+            )}
+          >
             {dictionaries.navigation.menu.items.map((menu, menuIndex) => (
               <Link
                 href={`#${menu.id}`}
@@ -83,19 +79,22 @@ export const NavigationApp = () => {
             ))}
           </div>
           {/* settings */}
-          <button
-            className={clsx(
-              "w-[2rem] h-[2rem]",
-              "flex items-center justify-center",
-              "rounded-[0.5rem]",
-              darkMode ? "text-white" : "text-dark25",
-              "border border-grey80 dark:border-dark18"
-            )}
-            aria-label="theme"
-            onClick={handleClickThemeMode}
-          >
-            {darkMode ? <FaMoon size={16} /> : <FaSun size={16} />}
-          </button>
+          <div className={clsx("flex items-center justify-end gap-[1rem]")}>
+            {/* theme */}
+            <button
+              className={clsx(
+                "w-[2rem] h-[2rem]",
+                "flex items-center justify-center",
+                "rounded-[0.5rem]",
+                "dark:text-white text-dark25",
+                "border border-grey80 dark:border-dark18"
+              )}
+              aria-label="theme"
+              onClick={handleClickThemeMode}
+            >
+              {theme === "dark" ? <FaMoon size={16} /> : <FaSun size={16} />}
+            </button>
+          </div>
         </div>
       </div>
 

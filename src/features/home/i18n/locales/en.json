@@ -41,7 +41,7 @@
   },
   "about": {
     "id": "about",
-    "description": "Crafting the Web: A Glimpse Into My Journey as a Software Web Engineer<br/><br/>Over <strong style='color:#A290FC'>5++</strong> years, I’ve had the privilege of working on transformative web solutions that merge technology with real-world impact. As a software web engineer, I’ve honed my skills in React.JS, Vue.JS, Next.JS, Node.JS, Firebase, GCP and AWS to develop scalable, user-centric applications.<br/><br/>One of my proudest achievements was when i managed 25-30 people in AI Department of Bank BRI (one of the largest bank in Indonesia, also serve application that accessed by 100.000++ users among in Indonesia. Collaborating with cross-functional teams, I learned the value of combining technical expertise with communication and problem-solving.<br/><br/>What drives me most is the ever-evolving nature of this industry. From optimizing code for performance to staying ahead with modern tools like Next.JS, Nest.JS, Cloud Platform (GCP, AWS, Firebase), I enjoy pushing the boundaries of what’s possible on the web.<br/><br/>If you're passionate about software engineering, have questions, or want to connect, feel free to reach out! Let’s build something amazing together."
+    "description": "Crafting the Web: A Glimpse Into My Journey as a Software Web Engineer<br/><br/>Over <strong style='color:#A290FC; font-size:1rem;'>5++</strong> years, I’ve had the privilege of working on transformative web solutions that merge technology with real-world impact. As a software web engineer, I’ve honed my skills in React.JS, Vue.JS, Next.JS, Node.JS, Firebase, GCP and AWS to develop scalable, user-centric applications.<br/><br/>One of my proudest achievements was when i managed 25-30 people in AI Department of Bank BRI (one of the largest bank in Indonesia, also serve application that accessed by 100.000++ users among in Indonesia. Collaborating with cross-functional teams, I learned the value of combining technical expertise with communication and problem-solving.<br/><br/>What drives me most is the ever-evolving nature of this industry. From optimizing code for performance to staying ahead with modern tools like Next.JS, Nest.JS, Cloud Platform (GCP, AWS, Firebase), I enjoy pushing the boundaries of what’s possible on the web.<br/><br/>If you're passionate about software engineering, have questions, or want to connect, feel free to reach out! Let’s build something amazing together."
   },
   "experience": {
     "id": "experiences",
@@ -68,6 +68,20 @@
           {
             "id": "websocket",
             "name": "Websocket"
+          }
+        ]
+      },
+      {
+        "id": "2",
+        "position": "Senior Frontend Engineer",
+        "period": "2024-2026",
+        "company": "BliBli",
+        "company_link": "",
+        "description": "Build and maintain critical components used to construct Klafiyo's frontend, accross whole product. Work closely with cross functional teams, and product manager, to implement and advocate for best practices in web accessibility",
+        "skills": [
+          {
+            "id": "react",
+            "name": "React"
           }
         ]
       },
@@ -122,6 +136,19 @@
             "name": "sasd"
           }
         ]
+      },
+      {
+        "id": "dest",
+        "name": "Dest",
+        "image_url": "/images/home/projects/test_1.png",
+        "link": "",
+        "description": "Build and maintain critical components used to construct Klafiyo's frontend, accross whole product. Work closely with cross functional teams, and product manager, to implement and advocate for best practices in web accessibility",
+        "stack": [
+          {
+            "id": "ates",
+            "name": "sasd"
+          }
+        ]
       }
     ]
   },
@@ -138,6 +165,14 @@
       {
         "id": "1",
         "name": "Singleton",
+        "image_url": "/images/home/blogs/test_1.png",
+        "link": "",
+        "description": "Build and maintain critical components used to construct Klafiyo's frontend, accross whole product. Work closely with cross functional teams, and product manager, to implement and advocate for best practices in web accessibility",
+        "tag": ["Design Pattern"]
+      },
+      {
+        "id": "1",
+        "name": "Singleton 2",
         "image_url": "/images/home/blogs/test_1.png",
         "link": "",
         "description": "Build and maintain critical components used to construct Klafiyo's frontend, accross whole product. Work closely with cross functional teams, and product manager, to implement and advocate for best practices in web accessibility",

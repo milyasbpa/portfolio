@@ -1,3 +1,4 @@
+"use client";
 import { AppActionEnum, AppActions, AppTheme } from "./App.types";
 
 // Theme

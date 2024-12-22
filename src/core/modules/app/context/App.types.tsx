@@ -1,3 +1,4 @@
+"use client";
 type ActionMap<M extends { [index: string]: { [key: string]: any } }> = {
   [Key in keyof M]: M[Key] extends undefined
     ? {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import clsx from "clsx";
+import { AppProvider } from "@/core/modules/app/context";
 
 const manrope = Manrope({
   subsets: ["latin"], // Adjust subsets if needed
@@ -51,8 +52,11 @@ export default function RootLayout({
           `${manrope.variable} antialiased`,
           "bg-white dark:bg-[#171717]"
         )}
+        style={{
+          colorScheme: "dark",
+        }}
       >
-        {children}
+        <AppProvider>{children}</AppProvider>
       </body>
     </html>
   );

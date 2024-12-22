@@ -1,6 +1,9 @@
+"use client";
 import React, { createContext, useReducer, Dispatch } from "react";
 import { AppActions, AppInitialStateType } from "./App.types";
 import { AppThemeReducers } from "./App.reducers";
+
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 const initialState: AppInitialStateType = {
   theme: {
@@ -22,11 +25,22 @@ const mainReducer = ({ theme }: AppInitialStateType, action: AppActions) => ({
 
 const AppProvider = (props: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(mainReducer, initialState);
+  const [mounted, setMounted] = React.useState(false);
+
+  // Ensure the theme provider only renders after hydration
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted) {
+    return <div className="invisible">{props.children}</div>; // Prevent rendering until mounted
+  }
 
   return (
-    <AppContext.Provider value={{ state, dispatch }}>
-      {props.children}
-    </AppContext.Provider>
+    <NextThemesProvider attribute="class" defaultTheme="dark">
+      <AppContext.Provider value={{ state, dispatch }}>
+        {props.children}
+      </AppContext.Provider>
+    </NextThemesProvider>
   );
 };
 
