@@ -74,7 +74,7 @@ export const ExperienceCardHome = ({
               className={clsx(
                 "rounded-[0.5rem]",
                 "px-[0.5rem] py-[0.25rem]",
-                "bg-purple60 dark:bg-purple78",
+                "bg-purple60 dark:bg-purple70",
                 "text-[0.75rem] font-semibold text-white"
               )}
             >

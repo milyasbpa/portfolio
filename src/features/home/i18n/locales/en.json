@@ -64,11 +64,19 @@
         "skills": [
           {
             "id": "react",
-            "name": "React"
+            "name": "React JS"
           },
           {
             "id": "websocket",
             "name": "Websocket"
+          },
+          {
+            "id": "graphql",
+            "name": "GraphQL"
+          },
+          {
+            "id": "express",
+            "name": "Express JS"
           }
         ]
       },
@@ -81,8 +89,24 @@
         "description": "Build and maintain critical components used to construct Klafiyo's frontend, accross whole product. Work closely with cross functional teams, and product manager, to implement and advocate for best practices in web accessibility",
         "skills": [
           {
-            "id": "react",
-            "name": "React"
+            "id": "technical_vision",
+            "name": "Technical Vision and Strategy"
+          },
+          {
+            "id": "code_quality",
+            "name": "Code Quality and Reviews"
+          },
+          {
+            "id": "team_mentorship",
+            "name": "Team Mentorship and Leadership"
+          },
+          {
+            "id": "scalable_design_system",
+            "name": "Scalable Design System"
+          },
+          {
+            "id": "cross_functional_collaboration",
+            "name": "Cross Functional Collaboration"
           }
         ]
       },
@@ -95,8 +119,20 @@
         "description": "Build and maintain critical components used to construct Klafiyo's frontend, accross whole product. Work closely with cross functional teams, and product manager, to implement and advocate for best practices in web accessibility",
         "skills": [
           {
-            "id": "react",
-            "name": "React"
+            "id": "vue",
+            "name": "Vue JS"
+          },
+          {
+            "id": "storybook",
+            "name": "Storybook"
+          },
+          {
+            "id": "angular",
+            "name": "Angular"
+          },
+          {
+            "id": "unit_test",
+            "name": "Unit Testing"
           }
         ]
       }
