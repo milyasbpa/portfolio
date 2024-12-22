@@ -1,0 +1,12 @@
+{
+  "container_image": "/images/404/404_container.svg",
+  "cable_image": "/images/404/404.svg",
+  "message": "404",
+  "description": "Page not Found",
+  "cta": {
+    "primary": {
+      "children": "Go To Home Page",
+      "href": "/"
+    }
+  }
+}
