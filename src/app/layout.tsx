@@ -14,12 +14,12 @@ export const metadata: Metadata = {
   title: "Ilyas Bashirah",
   description:
     "Crafting seamless digital experiences with React, Vue, Angular, Express—building the future, one framework at a time. 🚀💻 #SoftwareEngineer #Innovation",
-  keywords: ["ilyas bashirah", "portfolio", "software engineer"],
+  keywords: ["Ilyas Bashirah", "ilyas bashirah", "ilyasbashirah"],
   openGraph: {
     title: "Ilyas Bashirah",
     description:
       "Crafting seamless digital experiences with React, Vue, Angular, Express—building the future, one framework at a time. 🚀💻 #SoftwareEngineer #Innovation",
-    url: "https://ilyasbashirah.com",
+    url: "Ilyas Bashirah",
     images: [
       {
         url: "https://ilyasbashirah.com/logo/favicon-16x16.png",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   alternates: {
-    canonical: "https://ilyasbashirah.com",
+    canonical: "Ilyas Bashirah",
   },
 };
 
@@ -52,9 +52,6 @@ export default function RootLayout({
           `${manrope.variable} antialiased`,
           "bg-white dark:bg-[#171717]"
         )}
-        style={{
-          colorScheme: "dark",
-        }}
       >
         <AppProvider>{children}</AppProvider>
       </body>
