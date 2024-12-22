@@ -13,7 +13,10 @@ export const NotFoundContainer = () => {
       )}
     >
       <div className={clsx("relative")}>
-        <img src={dictionaries.container_image} alt="container-image" />
+        <img
+          src={dictionaries.container_image}
+          alt={dictionaries.container_image_alt}
+        />
         <img
           className={clsx(
             "absolute",
@@ -21,7 +24,7 @@ export const NotFoundContainer = () => {
             "translate-x-[-50%]"
           )}
           src={dictionaries.cable_image}
-          alt="container-image"
+          alt={dictionaries.cable_image_alt}
         />
         <div
           className={clsx(

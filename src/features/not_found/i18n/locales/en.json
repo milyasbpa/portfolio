@@ -1,6 +1,8 @@
 {
   "container_image": "/images/404/404_container.svg",
+  "container_image_alt": "container_image",
   "cable_image": "/images/404/404.svg",
+  "cable_image_alt": "container_image",
   "message": "404",
   "description": "Page not Found",
   "cta": {
