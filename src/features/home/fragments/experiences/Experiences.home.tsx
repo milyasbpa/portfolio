@@ -16,7 +16,7 @@ export const ExperiencesHome = () => {
         "py-[60px]"
       )}
     >
-      <motion.h3
+      <motion.h2
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
@@ -25,7 +25,7 @@ export const ExperiencesHome = () => {
         )}
       >
         {dictionaries.experience.title}
-      </motion.h3>
+      </motion.h2>
       {dictionaries.experience.items.map((experience, experienceIndex) => (
         <ExperienceCardHome
           key={experienceIndex}

@@ -13,6 +13,14 @@ export const AboutHome = () => {
         "py-[60px]"
       )}
     >
+      <h2
+        className={clsx(
+          "text-[1.5rem] text-dark18 dark:text-grey90 font-semibold"
+        )}
+        dangerouslySetInnerHTML={{
+          __html: dictionaries.about.title,
+        }}
+      />
       <p
         className={clsx(
           "text-[0.875rem] text-dark18 dark:text-grey90 font-medium"
