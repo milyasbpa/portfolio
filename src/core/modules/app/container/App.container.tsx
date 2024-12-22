@@ -25,13 +25,26 @@ export const AppContainer = ({ children }: AppContainer) => {
           "top-0",
           "z-[20]",
           "w-full",
-          // "opacity-80",
           "px-[1.5rem] desktop:px-0",
-          "pt-[1rem]",
-          "bg-white dark:bg-[#171717]"
+          "pt-[1rem]"
         )}
       >
-        <div className={clsx("flex items-center justify-center", "w-full")}>
+        <div
+          className={clsx(
+            "absolute",
+            "top-0 left-0 right-0",
+            "bg-white dark:bg-[#171717]",
+            "opacity-80",
+            "w-full h-[calc(100%-2px)]"
+          )}
+        />
+        <div
+          className={clsx(
+            "relative",
+            "flex items-center justify-center",
+            "w-full"
+          )}
+        >
           <div
             className={clsx(
               "flex items-center justify-end lg:justify-between",
