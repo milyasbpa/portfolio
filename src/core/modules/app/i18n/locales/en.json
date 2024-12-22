@@ -1,5 +1,10 @@
 {
   "navigation": {
+    "logo": {
+      "src": "/logo/favicon-96x96.png",
+      "alt": "logo",
+      "href": "/"
+    },
     "menu": {
       "items": [
         {
