@@ -5,6 +5,7 @@ import { MenuApp } from "../fragments/menu";
 import { ScrollProgressApp } from "../fragments/scroll_progress";
 import { ThemeApp } from "../fragments/theme";
 import { LogoApp } from "../fragments/logo";
+import { MenuDropdownApp } from "../fragments/menu_dropdown";
 
 export interface AppContainer {
   children?: React.ReactNode;
@@ -25,7 +26,7 @@ export const AppContainer = ({ children }: AppContainer) => {
           "top-0",
           "z-[20]",
           "w-full",
-          "px-[1.5rem] desktop:px-0",
+          "desktop:px-0",
           "pt-[1rem]"
         )}
       >
@@ -47,9 +48,9 @@ export const AppContainer = ({ children }: AppContainer) => {
         >
           <div
             className={clsx(
-              "flex items-center justify-end lg:justify-between",
+              "flex items-center justify-between",
               "w-full max-w-6xl",
-              "px-[1rem]"
+              "px-[1.5rem]"
             )}
           >
             <LogoApp />
@@ -59,6 +60,7 @@ export const AppContainer = ({ children }: AppContainer) => {
               <MenuApp />
               {/* theme */}
               <ThemeApp />
+              <MenuDropdownApp />
             </div>
           </div>
         </div>
