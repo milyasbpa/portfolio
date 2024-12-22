@@ -44,7 +44,7 @@ export const HomeContainer = () => {
               "grid grid-cols-1 items-stretch content-between justify-start justify-items-start",
               "w-full",
               "min-h-screen",
-              "py-[60px]"
+              "py-[68px]"
             )}
           >
             <div
@@ -146,7 +146,8 @@ export const HomeContainer = () => {
         <aside
           className={clsx(
             "grid grid-cols-1 items-start content-start justify-start justify-items-start",
-            "w-full desktop:h-screen"
+            "w-full desktop:h-screen",
+            "py-[68px]"
           )}
         >
           <AboutHome />
