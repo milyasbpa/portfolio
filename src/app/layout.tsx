@@ -12,9 +12,17 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   title: "Ilyas Bashirah",
+  applicationName: "Ilyas Bashirah",
+  authors: [
+    {
+      url: "https://ilyasbashirah.com",
+      name: "Ilyas Bashirah",
+    },
+  ],
   description:
     "Crafting seamless digital experiences with React, Vue, Angular, Express—building the future, one framework at a time. 🚀💻 #SoftwareEngineer #Innovation",
   keywords: ["Ilyas Bashirah", "ilyas bashirah", "ilyasbashirah"],
+  icons: "https://ilyasbashirah.com/logo/favicon-16x16.png",
   openGraph: {
     title: "Ilyas Bashirah",
     description:
