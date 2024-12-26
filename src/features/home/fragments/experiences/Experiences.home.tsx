@@ -44,6 +44,7 @@ export const ExperiencesHome = () => {
           "text-[0.75rem] tablet:text-[0.875rem] font-bold text-dark18 dark:text-grey80",
           "opacity-80"
         )}
+        target="_blank"
       >
         {dictionaries.experience.cta.primary.children}
         <GoArrowRight />

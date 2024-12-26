@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: "Ilyas Bashirah",
     description:
       "Crafting seamless digital experiences with React, Vue, Angular, Express—building the future, one framework at a time. 🚀💻 #SoftwareEngineer #Innovation",
-    url: "Ilyas Bashirah",
+    url: "https://ilyasbashirah.com",
     images: [
       {
         url: "https://ilyasbashirah.com/logo/favicon-16x16.png",
@@ -54,7 +54,6 @@ export default function RootLayout({
         name="google-site-verification"
         content="uwORxZ-BvNAIP6w5l2sPy-GTSXeLDK9hF3q1LpUnyqM"
       />
-
       <body
         className={clsx(
           `${manrope.variable} antialiased`,
