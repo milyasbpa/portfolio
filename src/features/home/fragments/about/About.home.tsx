@@ -9,7 +9,7 @@ export const AboutHome = () => {
       id={dictionaries.about.id}
       className={clsx(
         "grid grid-cols-1 items-start content-start justify-start justify-items-start gap-[1rem]",
-        "w-full min-h-screen"
+        "w-full min-h-screen h-max"
       )}
     >
       <h2

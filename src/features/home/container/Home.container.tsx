@@ -27,8 +27,7 @@ export const HomeContainer = () => {
         className={clsx(
           "grid grid-cols-1 justify-center justify-items-center items-start content-start",
           "w-full",
-          "desktop:fixed",
-          "z-10"
+          "desktop:fixed"
         )}
       >
         <div
@@ -143,10 +142,10 @@ export const HomeContainer = () => {
       >
         <div></div>
         {/* contents */}
-        <aside
+        <div
           className={clsx(
             "grid grid-cols-1 items-start content-start justify-start justify-items-start",
-            "w-full desktop:h-screen",
+            "w-full desktop:min-h-screen",
             "py-[68px]"
           )}
         >
@@ -154,7 +153,7 @@ export const HomeContainer = () => {
           <ExperiencesHome />
           <ProjectsHome />
           <BlogsHome />
-        </aside>
+        </div>
       </section>
     </div>
   );

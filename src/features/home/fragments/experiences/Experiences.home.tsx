@@ -12,7 +12,7 @@ export const ExperiencesHome = () => {
       id={dictionaries.experience.id}
       className={clsx(
         "grid grid-cols-1 items-start content-start justify-start justify-items-start gap-[1rem]",
-        "w-full min-h-screen",
+        "w-full min-h-screen h-max",
         "py-[60px]"
       )}
     >
@@ -38,11 +38,13 @@ export const ExperiencesHome = () => {
         />
       ))}
       <motion.a
+        id={dictionaries.experience.cta.primary.id}
         href={dictionaries.experience.cta.primary.url}
         className={clsx(
           "flex items-center justify-start gap-[0.5rem]",
           "text-[0.75rem] tablet:text-[0.875rem] font-bold text-dark18 dark:text-grey80",
-          "opacity-80"
+          "opacity-80",
+          "cursor-pointer"
         )}
         target="_blank"
       >
