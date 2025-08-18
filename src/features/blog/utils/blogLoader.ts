@@ -105,7 +105,7 @@ async function getBlogDirectory(): Promise<string | null> {
     path.resolve(__dirname, "../../../data/blogs"), // Relative to this file
   ];
 
-  const dirPath = path.join(process.cwd(), "content");
+  const dirPath = path.join(process.cwd(), "blog");
   const files = await fs.readdir(dirPath);
   console.log(files);
   for (const blogDirectory of possiblePaths) {
