@@ -17,7 +17,7 @@ export interface BlogPost extends BlogMetadata {
 }
 
 /**
- * Get all blog files from public/blog directory (server-side only)
+ * Get all blog files - tries multiple directories (server-side only)
  */
 export async function getAllBlogFiles(): Promise<string[]> {
   if (typeof window !== "undefined") {
@@ -28,44 +28,65 @@ export async function getAllBlogFiles(): Promise<string[]> {
     const { promises: fs } = await import("fs");
     const path = await import("path");
 
-    const blogDirectory = path.join(process.cwd(), "public", "blog");
+    // Try multiple possible blog directories in order of preference
+    const possiblePaths = [
+      path.join(process.cwd(), "src", "data", "blogs"), // src/data/blogs (most reliable in Vercel)
+      path.join(process.cwd(), "public", "blog"),       // public/blog (traditional)
+      path.join(process.cwd(), "blog"),                 // blog/ (alternative)
+    ];
 
-    // Check if directory exists
-    try {
-      await fs.access(blogDirectory);
-    } catch {
-      console.error("Blog directory does not exist:", blogDirectory);
-      console.error("Current working directory:", process.cwd());
+    console.log("Current working directory:", process.cwd());
+    console.log("Trying blog directories:", possiblePaths);
 
-      // Try alternative paths that might work in Vercel
-      const altPaths = [
-        path.join(process.cwd(), "blog"),
-        path.join(__dirname, "../../../../public/blog"),
-        path.join(__dirname, "../../../public/blog"),
-      ];
-
-      for (const altPath of altPaths) {
-        try {
-          await fs.access(altPath);
-          console.log("Found blog directory at:", altPath);
-          const files = await fs.readdir(altPath);
-          return files.filter((file) => file.endsWith(".md"));
-        } catch {
-          // Continue to next path
+    for (const blogDirectory of possiblePaths) {
+      try {
+        await fs.access(blogDirectory);
+        const files = await fs.readdir(blogDirectory);
+        const mdFiles = files.filter((file) => file.endsWith(".md"));
+        
+        if (mdFiles.length > 0) {
+          console.log(`✅ Found ${mdFiles.length} blog files at:`, blogDirectory);
+          console.log("Blog files:", mdFiles);
+          return mdFiles;
         }
+        
+        console.log(`⚠️  Directory exists but no .md files found:`, blogDirectory);
+      } catch (accessError) {
+        console.log(`❌ Cannot access directory:`, blogDirectory);
       }
-
-      return [];
     }
 
-    const files = await fs.readdir(blogDirectory);
-    console.log("Found blog files:", files);
-    return files.filter((file) => file.endsWith(".md"));
+    console.error("❌ No blog directories found with .md files");
+    return [];
   } catch (error) {
     console.error("Error reading blog directory:", error);
-    console.error("Error details:", error);
     return [];
   }
+}
+
+/**
+ * Get the correct blog directory path
+ */
+async function getBlogDirectory(): Promise<string | null> {
+  const { promises: fs } = await import("fs");
+  const path = await import("path");
+
+  const possiblePaths = [
+    path.join(process.cwd(), "src", "data", "blogs"),
+    path.join(process.cwd(), "public", "blog"),
+    path.join(process.cwd(), "blog"),
+  ];
+
+  for (const blogDirectory of possiblePaths) {
+    try {
+      await fs.access(blogDirectory);
+      return blogDirectory;
+    } catch {
+      continue;
+    }
+  }
+
+  return null;
 }
 
 /**
@@ -82,7 +103,12 @@ export async function parseBlogFile(
     const { promises: fs } = await import("fs");
     const path = await import("path");
 
-    const blogDirectory = path.join(process.cwd(), "public", "blog");
+    const blogDirectory = await getBlogDirectory();
+    if (!blogDirectory) {
+      console.error("No blog directory found");
+      return null;
+    }
+
     const fullPath = path.join(blogDirectory, filename);
     const fileContents = await fs.readFile(fullPath, "utf8");
 
@@ -152,7 +178,12 @@ export async function getBlogBySlug(slug: string): Promise<BlogPost | null> {
     const { promises: fs } = await import("fs");
     const path = await import("path");
 
-    const blogDirectory = path.join(process.cwd(), "public", "blog");
+    const blogDirectory = await getBlogDirectory();
+    if (!blogDirectory) {
+      console.error("No blog directory found");
+      return null;
+    }
+
     const fullPath = path.join(blogDirectory, `${slug}.md`);
     const fileContents = await fs.readFile(fullPath, "utf8");
 
