@@ -51,7 +51,7 @@ export async function getAllBlogFiles(): Promise<string[]> {
         }
         
         console.log(`⚠️  Directory exists but no .md files found:`, blogDirectory);
-      } catch (accessError) {
+      } catch {
         console.log(`❌ Cannot access directory:`, blogDirectory);
       }
     }
