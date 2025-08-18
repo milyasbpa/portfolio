@@ -1,8 +1,10 @@
 import * as React from "react";
 import clsx from "clsx";
 import { motion } from "framer-motion";
-import { FaClock, FaCalendarAlt, FaTag } from "react-icons/fa";
+import { FaClock, FaCalendarAlt, FaTag, FaUser } from "react-icons/fa";
 import { useBlogContext } from "../../i18n";
+import matter from 'gray-matter';
+import { renderMarkdown } from '../../utils/markdown';
 
 export interface BlogContentProps {
   slug?: string;
@@ -10,9 +12,14 @@ export interface BlogContentProps {
 
 interface BlogPost {
   title: string;
+  description: string;
   date: string;
+  publishedAt: string;
   readTime: string;
+  author: string;
   tags: string[];
+  image?: string;
+  slug: string;
   content: string;
 }
 
@@ -21,14 +28,32 @@ export const BlogContent = ({ slug = "membangun-portfolio-modern" }: BlogContent
   const [blogPost, setBlogPost] = React.useState<BlogPost | null>(null);
   const [loading, setLoading] = React.useState(true);
 
+  const parseMarkdownContent = React.useCallback((markdownText: string): BlogPost => {
+    // Parse frontmatter and content
+    const { data: frontmatter, content } = matter(markdownText);
+    
+    return {
+      title: frontmatter.title || '',
+      description: frontmatter.description || '',
+      date: frontmatter.date || '',
+      publishedAt: frontmatter.publishedAt || '',
+      readTime: frontmatter.readTime || '',
+      author: frontmatter.author || '',
+      tags: frontmatter.tags || [],
+      image: frontmatter.image || '',
+      slug: frontmatter.slug || slug,
+      content: content.trim()
+    };
+  }, [slug]);
+
   React.useEffect(() => {
     const fetchBlogPost = async () => {
       try {
-        const response = await fetch(`/blog/${slug}.txt`);
+        const response = await fetch(`/blog/${slug}.md`);
         if (!response.ok) throw new Error('Blog post not found');
         
-        const text = await response.text();
-        const parsed = parseBlogContent(text);
+        const markdownText = await response.text();
+        const parsed = parseMarkdownContent(markdownText);
         setBlogPost(parsed);
       } catch (error) {
         console.error('Error fetching blog post:', error);
@@ -38,170 +63,24 @@ export const BlogContent = ({ slug = "membangun-portfolio-modern" }: BlogContent
     };
 
     fetchBlogPost();
-  }, [slug]);
-
-  const parseBlogContent = (text: string): BlogPost => {
-    const lines = text.split('\n');
-    let title = '';
-    let date = '';
-    let readTime = '';
-    let tags: string[] = [];
-    let content = '';
-    
-    let inContent = false;
-    
-    for (const line of lines) {
-      if (line.startsWith('# ')) {
-        title = line.substring(2);
-      } else if (line.includes('**Publikasi:**')) {
-        date = line.split('**Publikasi:**')[1].trim();
-      } else if (line.includes('**Waktu Baca:**')) {
-        readTime = line.split('**Waktu Baca:**')[1].trim();
-      } else if (line.includes('**Tag:**')) {
-        const tagString = line.split('**Tag:**')[1].trim();
-        tags = tagString.split(', ');
-      } else if (line === '---' && !inContent) {
-        inContent = true;
-        continue;
-      } else if (inContent) {
-        content += line + '\n';
-      }
-    }
-    
-    return { title, date, readTime, tags, content: content.trim() };
-  };
+  }, [slug, parseMarkdownContent]);
 
   const formatContent = (content: string) => {
-    return content
-      .split('\n\n')
-      .map((paragraph, index) => {
-        if (paragraph.startsWith('## ')) {
-          return (
-            <motion.h2
-              key={index}
-              className={clsx(
-                "text-2xl tablet:text-3xl font-bold mt-12 mb-6",
-                "bg-gradient-to-r from-indigo-600 to-purple-600",
-                "dark:from-indigo-400 dark:to-purple-400",
-                "bg-clip-text text-transparent"
-              )}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              {paragraph.substring(3)}
-            </motion.h2>
-          );
-        }
-        
-        if (paragraph.startsWith('### ')) {
-          return (
-            <motion.h3
-              key={index}
-              className={clsx(
-                "text-xl tablet:text-2xl font-semibold mt-8 mb-4",
-                "text-slate-800 dark:text-slate-200"
-              )}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              {paragraph.substring(4)}
-            </motion.h3>
-          );
-        }
-
-        if (paragraph.startsWith('- **')) {
-          const items = paragraph.split('\n').filter(line => line.startsWith('- **'));
-          return (
-            <motion.ul
-              key={index}
-              className="space-y-3 my-6"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.6, staggerChildren: 0.1 }}
-              viewport={{ once: true }}
-            >
-              {items.map((item, itemIndex) => {
-                const [boldPart, ...restParts] = item.substring(2).split('**');
-                const rest = restParts.join('**').trim();
-                return (
-                  <motion.li
-                    key={itemIndex}
-                    className="flex items-start gap-3"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: itemIndex * 0.1 }}
-                    viewport={{ once: true }}
-                  >
-                    <div className="w-2 h-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 mt-2.5 flex-shrink-0" />
-                    <div>
-                      <span className="font-semibold text-slate-800 dark:text-slate-200">
-                        {boldPart}
-                      </span>
-                      {rest && (
-                        <span className="text-slate-600 dark:text-slate-400">
-                          {rest.startsWith(' - ') ? rest.substring(3) : rest}
-                        </span>
-                      )}
-                    </div>
-                  </motion.li>
-                );
-              })}
-            </motion.ul>
-          );
-        }
-
-        if (paragraph.startsWith('```')) {
-          const codeContent = paragraph.replace(/```[\w]*\n?/g, '').trim();
-          return (
-            <motion.div
-              key={index}
-              className={clsx(
-                "bg-slate-900 dark:bg-slate-950",
-                "rounded-xl p-6 my-8",
-                "border border-slate-700/50",
-                "overflow-x-auto"
-              )}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <pre className="text-sm text-slate-300">
-                <code>{codeContent}</code>
-              </pre>
-            </motion.div>
-          );
-        }
-
-        return (
-          <motion.p
-            key={index}
-            className={clsx(
-              "text-slate-700 dark:text-slate-300",
-              "leading-relaxed mb-6",
-              "text-base tablet:text-lg"
-            )}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            {paragraph.split('**').map((part, partIndex) => 
-              partIndex % 2 === 1 ? (
-                <strong key={partIndex} className="font-semibold text-slate-800 dark:text-slate-200">
-                  {part}
-                </strong>
-              ) : (
-                part
-              )
-            )}
-          </motion.p>
-        );
-      });
+    const htmlContent = renderMarkdown(content);
+    
+    return (
+      <motion.div
+        className="prose prose-lg max-w-none [&>*]:animate-fade-in"
+        dangerouslySetInnerHTML={{ __html: htmlContent }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ 
+          duration: 0.8, 
+          delay: 0.2,
+          staggerChildren: 0.1 
+        }}
+      />
+    );
   };
 
   if (loading) {
@@ -259,13 +138,18 @@ export const BlogContent = ({ slug = "membangun-portfolio-modern" }: BlogContent
         {/* Blog Meta */}
         <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-600 dark:text-slate-400">
           <div className="flex items-center gap-2">
+            <FaUser className="w-4 h-4" />
+            <span>{blogPost.author}</span>
+          </div>
+          
+          <div className="flex items-center gap-2">
             <FaCalendarAlt className="w-4 h-4" />
-            <span>{dictionaries.meta.publishedAt} {blogPost.date}</span>
+            <span>{dictionaries.meta.publishedAt} {blogPost.publishedAt}</span>
           </div>
           
           <div className="flex items-center gap-2">
             <FaClock className="w-4 h-4" />
-            <span>{blogPost.readTime} {dictionaries.meta.readTime}</span>
+            <span>{blogPost.readTime}</span>
           </div>
         </div>
 

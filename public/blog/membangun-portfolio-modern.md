@@ -1,9 +1,13 @@
-# Membangun Website Portfolio Modern dengan Next.js dan Framer Motion
-
-**Publikasi:** 18 Agustus 2025  
-**Waktu Baca:** 8 menit  
-**Tag:** React, Next.js, TypeScript, Framer Motion
-
+---
+title: "Membangun Website Portfolio Modern dengan Next.js dan Framer Motion"
+description: "Dalam era digital yang terus berkembang, memiliki portfolio online yang menarik dan profesional adalah kunci untuk menunjukkan kemampuan dan karya kita. Di artikel ini, saya akan membagikan pengalaman membangun website portfolio modern menggunakan Next.js 15, TypeScript, dan Framer Motion."
+date: "2025-08-18"
+publishedAt: "18 Agustus 2025"
+readTime: "8 menit baca"
+author: "Ilyas Bashirah"
+tags: ["React", "Next.js", "TypeScript", "Framer Motion", "Portfolio", "Web Development"]
+image: "/images/blog/membangun-portfolio-modern.jpg"
+slug: "membangun-portfolio-modern"
 ---
 
 ## Pendahuluan
