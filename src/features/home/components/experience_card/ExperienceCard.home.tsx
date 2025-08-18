@@ -1,6 +1,7 @@
 import * as React from "react";
 import clsx from "clsx";
 import { motion, useInView } from "framer-motion";
+import { FaBuilding, FaExternalLinkAlt, FaClock } from "react-icons/fa";
 
 export interface ExperienceCardHomeProps {
   id?: string;
@@ -25,11 +26,10 @@ export const ExperienceCardHome = ({
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 50, scale: 0.95 },
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      scale: 1,
       transition: {
         duration: 0.6,
         ease: "easeOut",
@@ -51,180 +51,153 @@ export const ExperienceCardHome = ({
   };
 
   return (
-    <motion.a
+    <motion.div
       id={id}
       ref={ref}
-      href={company_link}
-      target="_blank"
-      rel="noopener noreferrer"
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       variants={cardVariants}
-      whileHover={{
-        y: -8,
-        transition: { duration: 0.3, ease: "easeOut" }
-      }}
-      className={clsx(
-        "group relative block",
-        "w-full p-6 tablet:p-8",
-        "bg-white/70 hover:bg-white/90",
-        "dark:bg-dark-800/70 dark:hover:bg-dark-700/90",
-        "backdrop-blur-sm",
-        "rounded-2xl",
-        "border border-neutral-200/50 hover:border-primary-300/50",
-        "dark:border-dark-600/50 dark:hover:border-primary-500/50",
-        "shadow-sm hover:shadow-xl",
-        "transition-all duration-300 ease-out",
-        "cursor-pointer",
-        "overflow-hidden"
-      )}
+      className="relative w-full"
     >
-      {/* Background Gradient Overlay */}
-      <div className={clsx(
-        "absolute inset-0 opacity-0 group-hover:opacity-5",
-        "bg-gradient-to-br from-primary-500 via-secondary-500 to-primary-600",
-        "transition-opacity duration-500"
-      )} />
-      
-      {/* Shine Effect */}
-      <div className={clsx(
-        "absolute inset-0 opacity-0 group-hover:opacity-100",
-        "bg-gradient-to-r from-transparent via-white/10 to-transparent",
-        "transform -skew-x-12 -translate-x-full group-hover:translate-x-full",
-        "transition-all duration-1000 ease-out"
-      )} />
-
-      <div className={clsx(
-        "relative z-10",
-        "grid grid-cols-1 tablet:grid-cols-[120px_1fr] gap-6",
-        "items-start"
-      )}>
-        {/* Period */}
-        <motion.div
-          variants={cardVariants}
-          className={clsx(
-            "order-2 tablet:order-1"
-          )}
-        >
-          <span
-            className={clsx(
-              "inline-block px-3 py-1.5",
-              "text-sm font-semibold",
-              "bg-primary-100 text-primary-800",
-              "dark:bg-primary-900/30 dark:text-primary-300",
-              "rounded-lg",
-              "border border-primary-200",
-              "dark:border-primary-700/50"
-            )}
+      <motion.a
+        href={company_link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={clsx(
+          "group relative block w-full p-0",
+          "cursor-pointer"
+        )}
+        whileHover={{
+          scale: 1.01,
+          transition: { duration: 0.2 }
+        }}
+      >
+        {/* Card Content */}
+        <div className="space-y-6">
+          {/* Header with Period and Company */}
+          <motion.div
+            variants={cardVariants}
+            className="flex flex-col tablet:flex-row tablet:items-center tablet:justify-between gap-4"
           >
-            {period}
-          </span>
-        </motion.div>
-
-        {/* Content */}
-        <motion.div
-          variants={cardVariants}
-          className={clsx(
-            "order-1 tablet:order-2",
-            "space-y-4"
-          )}
-        >
-          {/* Position & Company */}
-          <div className="space-y-2">
-            <motion.h3
+            {/* Period Badge */}
+            <motion.div
               className={clsx(
-                "text-lg tablet:text-xl font-bold",
-                "text-neutral-800 dark:text-neutral-100",
-                "group-hover:text-primary-600 dark:group-hover:text-primary-400",
-                "transition-colors duration-300"
+                "inline-flex items-center gap-2 px-4 py-2",
+                "bg-gradient-to-r from-indigo-100 to-purple-100",
+                "dark:from-indigo-900/30 dark:to-purple-900/30",
+                "rounded-full",
+                "border border-indigo-200 dark:border-indigo-800/50",
+                "backdrop-blur-sm"
               )}
-              variants={cardVariants}
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
             >
-              {position}
-            </motion.h3>
-            
-            <motion.p
-              className={clsx(
-                "text-base font-semibold",
-                "text-neutral-600 dark:text-neutral-400",
-                "flex items-center gap-2"
-              )}
-              variants={cardVariants}
-            >
-              <span>at</span>
+              <FaClock className="text-indigo-600 dark:text-indigo-400 text-sm" />
               <span className={clsx(
-                "text-primary-600 dark:text-primary-400",
-                "group-hover:text-primary-500",
-                "transition-colors duration-300"
+                "text-sm font-semibold",
+                "text-indigo-700 dark:text-indigo-300"
+              )}>
+                {period}
+              </span>
+            </motion.div>
+
+            {/* Company */}
+            <motion.div
+              className={clsx(
+                "inline-flex items-center gap-2 px-4 py-2",
+                "bg-gradient-to-r from-teal-100 to-cyan-100",
+                "dark:from-teal-900/30 dark:to-cyan-900/30",
+                "rounded-full",
+                "border border-teal-200 dark:border-teal-800/50",
+                "backdrop-blur-sm",
+                "hover:scale-105 transition-transform duration-200"
+              )}
+            >
+              <FaBuilding className="text-teal-600 dark:text-teal-400 text-sm" />
+              <span className={clsx(
+                "text-sm font-semibold",
+                "text-teal-700 dark:text-teal-300"
               )}>
                 {company}
               </span>
-              
-              {/* External Link Icon */}
-              <motion.svg
-                className={clsx(
-                  "w-4 h-4 opacity-0 group-hover:opacity-100",
-                  "text-primary-500",
-                  "transition-all duration-300"
-                )}
-                initial={{ rotate: 0 }}
-                whileHover={{ rotate: 45 }}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <motion.div
+                initial={{ opacity: 0, x: -5 }}
+                whileHover={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.2 }}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </motion.svg>
-            </motion.p>
-          </div>
+                <FaExternalLinkAlt className="text-teal-500 dark:text-teal-400 text-xs" />
+              </motion.div>
+            </motion.div>
+          </motion.div>
+
+          {/* Position Title */}
+          <motion.div
+            variants={cardVariants}
+            className="space-y-2"
+          >
+            <h3 className={clsx(
+              "text-xl tablet:text-2xl font-bold",
+              "bg-gradient-to-r from-slate-800 via-indigo-700 to-purple-700",
+              "dark:from-slate-100 dark:via-indigo-300 dark:to-purple-300",
+              "bg-clip-text text-transparent",
+              "leading-tight"
+            )}>
+              {position}
+            </h3>
+          </motion.div>
 
           {/* Description */}
-          <motion.p
-            className={clsx(
-              "text-sm tablet:text-base leading-relaxed",
-              "text-neutral-700 dark:text-neutral-300",
-              "font-medium"
-            )}
+          <motion.div
             variants={cardVariants}
+            className="space-y-3"
           >
-            {description}
-          </motion.p>
+            <p className={clsx(
+              "text-base tablet:text-lg leading-relaxed",
+              "text-slate-700 dark:text-slate-300",
+              "font-medium"
+            )}>
+              {description}
+            </p>
+          </motion.div>
 
           {/* Skills */}
           <motion.div
-            className={clsx(
-              "flex flex-wrap gap-2",
-              "pt-2"
-            )}
             variants={cardVariants}
+            className="space-y-3"
           >
-            {skills.map((skill, skillIndex) => (
-              <motion.span
-                key={skill.id}
-                variants={skillVariants}
-                whileHover={{
-                  scale: 1.05,
-                  y: -2,
-                  transition: { duration: 0.2 }
-                }}
-                className={clsx(
-                  "inline-block px-3 py-1.5",
-                  "text-xs font-semibold",
-                  "bg-gradient-to-r from-primary-500 to-primary-600",
-                  "dark:from-primary-600 dark:to-primary-700",
-                  "text-white",
-                  "rounded-lg",
-                  "shadow-sm hover:shadow-md",
-                  "transition-all duration-200",
-                  "cursor-default"
-                )}
-              >
-                {skill.name}
-              </motion.span>
-            ))}
+            <motion.div
+              className="flex flex-wrap gap-2"
+              variants={cardVariants}
+            >
+              {skills.map((skill, skillIndex) => (
+                <motion.span
+                  key={skill.id}
+                  variants={skillVariants}
+                  className={clsx(
+                    "inline-block px-3 py-1.5",
+                    "text-sm font-semibold",
+                    "bg-gradient-to-r from-indigo-500/20 to-purple-500/20",
+                    "hover:from-indigo-500/30 hover:to-purple-500/30",
+                    "text-indigo-700 dark:text-indigo-300",
+                    "border border-indigo-200 dark:border-indigo-800/50",
+                    "rounded-full",
+                    "backdrop-blur-sm",
+                    "transition-all duration-200",
+                    "hover:scale-105 hover:-translate-y-0.5"
+                  )}
+                  whileHover={{
+                    scale: 1.05,
+                    y: -2,
+                    transition: { duration: 0.2 }
+                  }}
+                >
+                  {skill.name}
+                </motion.span>
+              ))}
+            </motion.div>
           </motion.div>
-        </motion.div>
-      </div>
-    </motion.a>
+        </div>
+      </motion.a>
+    </motion.div>
   );
 };
