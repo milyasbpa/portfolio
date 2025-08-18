@@ -1,27 +1,30 @@
 import * as React from "react";
+import Link from "next/link";
 import clsx from "clsx";
 import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
-import { FaExternalLinkAlt, FaBlog, FaCalendarAlt, FaUser } from "react-icons/fa";
+import { FaExternalLinkAlt, FaBlog, FaCalendarAlt, FaClock, FaArrowRight } from "react-icons/fa";
 
 export interface BlogCardHomeProps {
   id?: string;
   title?: string;
-  company?: string;
-  company_link?: string;
+  slug?: string;
   description?: string;
+  date?: string;
+  readTime?: string;
   image_url?: string;
   index?: number;
 }
 
 export const BlogCardHome = ({
-  id = "",
   title = "",
-  company_link = "",
+  slug = "membangun-portfolio-modern",
   description = "",
+  date = "18 Agustus 2025",
+  readTime = "8 menit baca",
   image_url = "",
   index = 0,
 }: BlogCardHomeProps) => {
-  const ref = React.useRef<HTMLAnchorElement>(null);
+  const ref = React.useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
   
   // Mouse tracking for 3D effect
@@ -147,12 +150,8 @@ export const BlogCardHome = ({
         {String(index + 1).padStart(2, '0')}
       </motion.div>
 
-      <motion.a
-        id={id}
+      <motion.div
         ref={ref}
-        href={company_link}
-        target="_blank"
-        rel="noopener noreferrer"
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
         variants={cardVariants}
@@ -169,6 +168,10 @@ export const BlogCardHome = ({
             ease: "easeOut" 
           }
         }}
+        className="w-full"
+      >
+      <Link
+        href={`/blog/${slug}`}
         className={clsx(
           "group relative block",
           "w-full p-6 tablet:p-8",
@@ -348,37 +351,14 @@ export const BlogCardHome = ({
               {description}
             </motion.p>
 
-            {/* Premium Blog Tags */}
+            {/* Blog Meta Info */}
             <motion.div
               className={clsx(
-                "flex items-center gap-3",
+                "flex items-center gap-4",
                 "pt-2"
               )}
               variants={contentVariants}
             >
-              <motion.span
-                whileHover={{
-                  scale: 1.05,
-                  y: -2,
-                  transition: { duration: 0.2 }
-                }}
-                className={clsx(
-                  "inline-flex items-center gap-1.5 px-3 py-1.5",
-                  "text-xs font-semibold",
-                  "bg-gradient-to-r from-teal-500 via-cyan-500 to-blue-600",
-                  "hover:from-teal-400 hover:via-cyan-400 hover:to-blue-500",
-                  "text-white",
-                  "rounded-lg",
-                  "shadow-md shadow-teal-500/20 hover:shadow-lg hover:shadow-cyan-500/30",
-                  "transition-all duration-300",
-                  "cursor-default",
-                  "border border-white/20"
-                )}
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-white/60" />
-                Blog Article
-              </motion.span>
-
               <motion.div
                 className={clsx(
                   "inline-flex items-center gap-1.5 px-3 py-1.5",
@@ -389,13 +369,59 @@ export const BlogCardHome = ({
                   "border border-slate-200/50 dark:border-slate-600/50"
                 )}
               >
-                <FaUser className="w-2.5 h-2.5" />
-                By Author
+                <FaCalendarAlt className="w-2.5 h-2.5" />
+                {date}
+              </motion.div>
+
+              <motion.div
+                className={clsx(
+                  "inline-flex items-center gap-1.5 px-3 py-1.5",
+                  "text-xs font-medium",
+                  "bg-gradient-to-r from-teal-500 via-cyan-500 to-blue-600",
+                  "hover:from-teal-400 hover:via-cyan-400 hover:to-blue-500",
+                  "text-white",
+                  "rounded-lg",
+                  "shadow-md shadow-teal-500/20 hover:shadow-lg hover:shadow-cyan-500/30",
+                  "transition-all duration-300",
+                  "cursor-default",
+                  "border border-white/20"
+                )}
+                whileHover={{
+                  scale: 1.05,
+                  y: -2,
+                  transition: { duration: 0.2 }
+                }}
+              >
+                <FaClock className="w-2.5 h-2.5" />
+                {readTime}
+              </motion.div>
+
+              <motion.div
+                className={clsx(
+                  "inline-flex items-center gap-1.5 px-3 py-1.5",
+                  "text-xs font-semibold",
+                  "bg-gradient-to-r from-indigo-500 to-purple-600",
+                  "hover:from-indigo-600 hover:to-purple-700",
+                  "text-white",
+                  "rounded-lg",
+                  "shadow-md hover:shadow-lg",
+                  "transition-all duration-300",
+                  "cursor-pointer"
+                )}
+                whileHover={{
+                  scale: 1.05,
+                  x: 2,
+                  transition: { duration: 0.2 }
+                }}
+              >
+                <span>Baca Artikel</span>
+                <FaArrowRight className="w-2.5 h-2.5" />
               </motion.div>
             </motion.div>
           </motion.div>
         </div>
-      </motion.a>
+      </Link>
+      </motion.div>
     </motion.div>
   );
 };

@@ -1,4 +1,5 @@
 import * as React from "react";
+import Link from "next/link";
 import clsx from "clsx";
 import { motion, useInView } from "framer-motion";
 import { getDictionaries } from "../../i18n";
@@ -198,7 +199,9 @@ export const BlogsHome = () => {
               title={blog.name}
               description={blog.description}
               image_url={blog.image_url}
-              company_link={blog.link}
+              slug="membangun-portfolio-modern"
+              date="18 Agustus 2025"
+              readTime="8 menit baca"
               index={blogIndex}
             />
           </motion.div>
@@ -210,10 +213,14 @@ export const BlogsHome = () => {
         variants={itemVariants}
         className="pt-12 flex justify-center"
       >
-        <motion.a
-          href={dictionaries.blog.cta.primary.url}
-          target="_blank"
-          rel="noopener noreferrer"
+        <motion.div whileHover={{
+            scale: 1.05,
+            y: -2,
+            transition: { duration: 0.2 }
+          }}
+          whileTap={{ scale: 0.98 }}>
+        <Link
+          href="/blog"
           className={clsx(
             "group relative overflow-hidden",
             "inline-flex items-center gap-4",
@@ -230,12 +237,6 @@ export const BlogsHome = () => {
             "transition-all duration-300",
             "transform hover:scale-105"
           )}
-          whileHover={{
-            scale: 1.05,
-            y: -2,
-            transition: { duration: 0.2 }
-          }}
-          whileTap={{ scale: 0.98 }}
         >
           {/* Animated background shine */}
           <motion.div
@@ -302,7 +303,8 @@ export const BlogsHome = () => {
               }}
             />
           </div>
-        </motion.a>
+        </Link>
+        </motion.div>
       </motion.div>
     </motion.div>
   );
