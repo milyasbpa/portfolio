@@ -1,4 +1,4 @@
-import matter from 'gray-matter';
+import matter from "gray-matter";
 
 export interface BlogMetadata {
   title: string;
@@ -20,50 +20,50 @@ export interface BlogPost extends BlogMetadata {
  * Get all blog files from public/blog directory (server-side only)
  */
 export async function getAllBlogFiles(): Promise<string[]> {
-  if (typeof window !== 'undefined') {
-    throw new Error('getAllBlogFiles can only be called on server-side');
+  if (typeof window !== "undefined") {
+    throw new Error("getAllBlogFiles can only be called on server-side");
   }
-  
+
   try {
-    const { promises: fs } = await import('fs');
-    const path = await import('path');
-    
-    const blogDirectory = path.join(process.cwd(), 'public', 'blog');
-    
+    const { promises: fs } = await import("fs");
+    const path = await import("path");
+
+    const blogDirectory = path.join(process.cwd(), "public", "blog");
+
     // Check if directory exists
     try {
       await fs.access(blogDirectory);
-    } catch (accessError) {
-      console.error('Blog directory does not exist:', blogDirectory);
-      console.error('Current working directory:', process.cwd());
-      
+    } catch {
+      console.error("Blog directory does not exist:", blogDirectory);
+      console.error("Current working directory:", process.cwd());
+
       // Try alternative paths that might work in Vercel
       const altPaths = [
-        path.join(process.cwd(), 'blog'),
-        path.join(__dirname, '../../../../public/blog'),
-        path.join(__dirname, '../../../public/blog'),
+        path.join(process.cwd(), "blog"),
+        path.join(__dirname, "../../../../public/blog"),
+        path.join(__dirname, "../../../public/blog"),
       ];
-      
+
       for (const altPath of altPaths) {
         try {
           await fs.access(altPath);
-          console.log('Found blog directory at:', altPath);
+          console.log("Found blog directory at:", altPath);
           const files = await fs.readdir(altPath);
-          return files.filter(file => file.endsWith('.md'));
-        } catch (altError) {
+          return files.filter((file) => file.endsWith(".md"));
+        } catch {
           // Continue to next path
         }
       }
-      
+
       return [];
     }
-    
+
     const files = await fs.readdir(blogDirectory);
-    console.log('Found blog files:', files);
-    return files.filter(file => file.endsWith('.md'));
+    console.log("Found blog files:", files);
+    return files.filter((file) => file.endsWith(".md"));
   } catch (error) {
-    console.error('Error reading blog directory:', error);
-    console.error('Error details:', error);
+    console.error("Error reading blog directory:", error);
+    console.error("Error details:", error);
     return [];
   }
 }
@@ -71,33 +71,35 @@ export async function getAllBlogFiles(): Promise<string[]> {
 /**
  * Parse a single blog file and extract metadata (server-side only)
  */
-export async function parseBlogFile(filename: string): Promise<BlogMetadata | null> {
-  if (typeof window !== 'undefined') {
-    throw new Error('parseBlogFile can only be called on server-side');
+export async function parseBlogFile(
+  filename: string
+): Promise<BlogMetadata | null> {
+  if (typeof window !== "undefined") {
+    throw new Error("parseBlogFile can only be called on server-side");
   }
-  
+
   try {
-    const { promises: fs } = await import('fs');
-    const path = await import('path');
-    
-    const blogDirectory = path.join(process.cwd(), 'public', 'blog');
+    const { promises: fs } = await import("fs");
+    const path = await import("path");
+
+    const blogDirectory = path.join(process.cwd(), "public", "blog");
     const fullPath = path.join(blogDirectory, filename);
-    const fileContents = await fs.readFile(fullPath, 'utf8');
-    
+    const fileContents = await fs.readFile(fullPath, "utf8");
+
     const { data: frontmatter } = matter(fileContents);
-    
+
     // Extract slug from filename
-    const slug = filename.replace(/\.md$/, '');
-    
+    const slug = filename.replace(/\.md$/, "");
+
     return {
-      title: frontmatter.title || '',
-      description: frontmatter.description || '',
-      date: frontmatter.date || '',
-      publishedAt: frontmatter.publishedAt || frontmatter.date || '',
-      readTime: frontmatter.readTime || '',
-      author: frontmatter.author || '',
+      title: frontmatter.title || "",
+      description: frontmatter.description || "",
+      date: frontmatter.date || "",
+      publishedAt: frontmatter.publishedAt || frontmatter.date || "",
+      readTime: frontmatter.readTime || "",
+      author: frontmatter.author || "",
       tags: frontmatter.tags || [],
-      image: frontmatter.image || '',
+      image: frontmatter.image || "",
       slug: frontmatter.slug || slug,
     };
   } catch (error) {
@@ -109,16 +111,18 @@ export async function parseBlogFile(filename: string): Promise<BlogMetadata | nu
 /**
  * Get all blog metadata sorted by date (newest first) - server-side only
  */
-export async function getAllBlogMetadata(limit?: number): Promise<BlogMetadata[]> {
-  if (typeof window !== 'undefined') {
-    throw new Error('getAllBlogMetadata can only be called on server-side');
+export async function getAllBlogMetadata(
+  limit?: number
+): Promise<BlogMetadata[]> {
+  if (typeof window !== "undefined") {
+    throw new Error("getAllBlogMetadata can only be called on server-side");
   }
-  
+
   try {
     const files = await getAllBlogFiles();
-    const blogMetadataPromises = files.map(file => parseBlogFile(file));
+    const blogMetadataPromises = files.map((file) => parseBlogFile(file));
     const blogMetadata = await Promise.all(blogMetadataPromises);
-    
+
     // Filter out null values and sort by date
     const validBlogs = blogMetadata
       .filter((blog): blog is BlogMetadata => blog !== null)
@@ -127,11 +131,11 @@ export async function getAllBlogMetadata(limit?: number): Promise<BlogMetadata[]
         const dateB = new Date(b.publishedAt || b.date).getTime();
         return dateB - dateA; // Newest first
       });
-    
+
     // Apply limit if specified
     return limit ? validBlogs.slice(0, limit) : validBlogs;
   } catch (error) {
-    console.error('Error getting blog metadata:', error);
+    console.error("Error getting blog metadata:", error);
     return [];
   }
 }
@@ -140,29 +144,29 @@ export async function getAllBlogMetadata(limit?: number): Promise<BlogMetadata[]
  * Get a single blog post by slug - server-side only
  */
 export async function getBlogBySlug(slug: string): Promise<BlogPost | null> {
-  if (typeof window !== 'undefined') {
-    throw new Error('getBlogBySlug can only be called on server-side');
+  if (typeof window !== "undefined") {
+    throw new Error("getBlogBySlug can only be called on server-side");
   }
-  
+
   try {
-    const { promises: fs } = await import('fs');
-    const path = await import('path');
-    
-    const blogDirectory = path.join(process.cwd(), 'public', 'blog');
+    const { promises: fs } = await import("fs");
+    const path = await import("path");
+
+    const blogDirectory = path.join(process.cwd(), "public", "blog");
     const fullPath = path.join(blogDirectory, `${slug}.md`);
-    const fileContents = await fs.readFile(fullPath, 'utf8');
-    
+    const fileContents = await fs.readFile(fullPath, "utf8");
+
     const { data: frontmatter, content } = matter(fileContents);
-    
+
     return {
-      title: frontmatter.title || '',
-      description: frontmatter.description || '',
-      date: frontmatter.date || '',
-      publishedAt: frontmatter.publishedAt || frontmatter.date || '',
-      readTime: frontmatter.readTime || '',
-      author: frontmatter.author || '',
+      title: frontmatter.title || "",
+      description: frontmatter.description || "",
+      date: frontmatter.date || "",
+      publishedAt: frontmatter.publishedAt || frontmatter.date || "",
+      readTime: frontmatter.readTime || "",
+      author: frontmatter.author || "",
       tags: frontmatter.tags || [],
-      image: frontmatter.image || '',
+      image: frontmatter.image || "",
       slug: frontmatter.slug || slug,
       content: content.trim(),
     };
@@ -175,26 +179,39 @@ export async function getBlogBySlug(slug: string): Promise<BlogPost | null> {
 /**
  * Format date for display
  */
-export function formatDate(dateString: string, locale: 'en' | 'id' = 'id'): string {
+export function formatDate(
+  dateString: string,
+  locale: "en" | "id" = "id"
+): string {
   try {
     const date = new Date(dateString);
-    
-    if (locale === 'id') {
+
+    if (locale === "id") {
       const months = [
-        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember",
       ];
-      
+
       const day = date.getDate();
       const month = months[date.getMonth()];
       const year = date.getFullYear();
-      
+
       return `${day} ${month} ${year}`;
     } else {
-      return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
       });
     }
   } catch {
@@ -205,13 +222,15 @@ export function formatDate(dateString: string, locale: 'en' | 'id' = 'id'): stri
 /**
  * Get blog metadata for client-side rendering
  */
-export async function getBlogMetadataForClient(limit?: number): Promise<BlogMetadata[]> {
+export async function getBlogMetadataForClient(
+  limit?: number
+): Promise<BlogMetadata[]> {
   try {
-    const response = await fetch(`/api/blogs${limit ? `?limit=${limit}` : ''}`);
-    if (!response.ok) throw new Error('Failed to fetch blogs');
+    const response = await fetch(`/api/blogs${limit ? `?limit=${limit}` : ""}`);
+    if (!response.ok) throw new Error("Failed to fetch blogs");
     return await response.json();
   } catch (error) {
-    console.error('Error fetching blogs:', error);
+    console.error("Error fetching blogs:", error);
     return [];
   }
 }
@@ -219,13 +238,15 @@ export async function getBlogMetadataForClient(limit?: number): Promise<BlogMeta
 /**
  * Get single blog post for client-side rendering
  */
-export async function getBlogBySlugForClient(slug: string): Promise<BlogPost | null> {
+export async function getBlogBySlugForClient(
+  slug: string
+): Promise<BlogPost | null> {
   try {
     const response = await fetch(`/api/blogs/${slug}`);
-    if (!response.ok) throw new Error('Failed to fetch blog post');
+    if (!response.ok) throw new Error("Failed to fetch blog post");
     return await response.json();
   } catch (error) {
-    console.error('Error fetching blog post:', error);
+    console.error("Error fetching blog post:", error);
     return null;
   }
 }
