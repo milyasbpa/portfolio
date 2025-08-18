@@ -1,9 +1,10 @@
 import * as React from "react";
 import clsx from "clsx";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
 import { getDictionaries } from "../../i18n";
 import { ProjectCardHome } from "../../components/project_card";
 import { GoArrowRight } from "react-icons/go";
+import { FaRocket, FaCode, FaStar, FaEye, FaGithub, FaFolderOpen } from "react-icons/fa";
 
 export const ProjectsHome = () => {
   const dictionaries = getDictionaries();
@@ -15,15 +16,28 @@ export const ProjectsHome = () => {
     visible: {
       opacity: 1,
       transition: {
-        duration: 0.6,
-        staggerChildren: 0.2,
-        delayChildren: 0.1
+        duration: 0.8,
+        staggerChildren: 0.15,
+        delayChildren: 0.2
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
+    hidden: { opacity: 0, y: 60, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.7,
+        ease: [0.25, 0.46, 0.45, 0.94]
+      }
+    }
+  };
+
+  const headerVariants = {
+    hidden: { opacity: 0, y: -30 },
     visible: {
       opacity: 1,
       y: 0,
@@ -42,48 +56,142 @@ export const ProjectsHome = () => {
       animate={isInView ? "visible" : "hidden"}
       variants={containerVariants}
       className={clsx(
-        "space-y-8",
-        "w-full py-16"
+        "space-y-12",
+        "w-full py-16",
+        "flex flex-col items-center"
       )}
     >
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Floating gradient orbs */}
+        <motion.div
+          className="absolute top-32 right-20 w-40 h-40 bg-gradient-to-r from-teal-400/8 to-cyan-400/8 rounded-full blur-3xl"
+          animate={{
+            y: [-25, 25, -25],
+            x: [-15, 15, -15],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          className="absolute bottom-40 left-16 w-36 h-36 bg-gradient-to-r from-indigo-400/8 to-purple-400/8 rounded-full blur-2xl"
+          animate={{
+            y: [25, -25, 25],
+            x: [15, -15, 15],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 3
+          }}
+        />
+        
+        {/* Code pattern overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_24px,rgba(20,184,166,0.02)_25px,rgba(20,184,166,0.02)_26px,transparent_27px)] bg-[size:50px_50px] opacity-30" />
+      </div>
+
       {/* Section Header */}
       <motion.div
-        variants={itemVariants}
+        variants={headerVariants}
         className={clsx(
           "relative",
-          "pb-4 mb-8",
-          "border-b border-neutral-200 dark:border-dark-600"
+          "pb-8 mb-12",
+          "text-center",
+          "w-full max-w-4xl"
         )}
       >
+        {/* Header Icon */}
+        <motion.div
+          className="flex justify-center mb-6"
+          initial={{ scale: 0, rotate: -180 }}
+          animate={isInView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }}
+          transition={{ duration: 0.8, type: "spring", stiffness: 200 }}
+        >
+          <div className={clsx(
+            "w-16 h-16 rounded-2xl",
+            "bg-gradient-to-br from-teal-500 to-cyan-600",
+            "flex items-center justify-center",
+            "shadow-2xl shadow-teal-500/25",
+            "border border-white/20"
+          )}>
+            <FaRocket className="text-white text-2xl" />
+          </div>
+        </motion.div>
+
         <motion.h2
           className={clsx(
-            "text-2xl tablet:text-3xl desktop:text-4xl font-bold",
-            "bg-gradient-to-r from-secondary-600 to-secondary-500",
-            "dark:from-secondary-400 dark:to-secondary-300",
+            "text-3xl tablet:text-4xl desktop:text-5xl font-bold",
+            "bg-gradient-to-r from-teal-600 via-cyan-600 to-indigo-600",
+            "dark:from-teal-400 dark:via-cyan-400 dark:to-indigo-400",
             "bg-clip-text text-transparent",
-            "mb-2"
+            "mb-4 leading-tight"
           )}
         >
           {dictionaries.project.title}
         </motion.h2>
         
-        {/* Decorative line */}
+        {/* Decorative elements */}
         <motion.div
-          className={clsx(
-            "absolute bottom-0 left-0",
-            "h-px w-20",
-            "bg-gradient-to-r from-secondary-500 to-transparent"
-          )}
-          initial={{ width: 0 }}
-          animate={isInView ? { width: "5rem" } : { width: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-        />
+          className="flex justify-center items-center space-x-2 mb-8"
+          initial={{ opacity: 0, scale: 0 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <div className="w-2 h-2 bg-teal-500 rounded-full animate-pulse" />
+          <div className="w-20 h-px bg-gradient-to-r from-teal-500 via-cyan-500 to-indigo-500" />
+          <div className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse delay-300" />
+        </motion.div>
+
+        {/* Project summary stats */}
+        <motion.div
+          className="grid grid-cols-3 gap-6 max-w-2xl mx-auto"
+          variants={containerVariants}
+        >
+          {[
+            { icon: FaCode, label: "Projects", value: "10++", color: "from-teal-500 to-cyan-600" },
+            { icon: FaStar, label: "Technologies", value: "15++", color: "from-cyan-500 to-blue-600" },
+            { icon: FaEye, label: "Live Sites", value: "8++", color: "from-indigo-500 to-purple-600" }
+          ].map((stat, index) => (
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              className={clsx(
+                "text-center p-4 rounded-xl",
+                "bg-white/60 dark:bg-slate-800/60",
+                "backdrop-blur-sm border border-white/30 dark:border-slate-700/50",
+                "shadow-lg hover:shadow-xl transition-all duration-300",
+                "group"
+              )}
+              whileHover={{ scale: 1.05, y: -5 }}
+            >
+              <div className={clsx(
+                "w-8 h-8 mx-auto mb-2 rounded-lg flex items-center justify-center",
+                `bg-gradient-to-r ${stat.color}`,
+                "text-white shadow-lg"
+              )}>
+                <stat.icon size={12} />
+              </div>
+              <div className="text-lg font-bold text-slate-800 dark:text-slate-200">
+                {stat.value}
+              </div>
+              <div className="text-xs text-slate-600 dark:text-slate-400">
+                {stat.label}
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </motion.div>
 
-      {/* Project Cards */}
+      {/* Project Cards Grid */}
       <motion.div
         className={clsx(
-          "space-y-6"
+          "w-full max-w-6xl",
+          "grid grid-cols-1 tablet:grid-cols-2 gap-12",
+          "px-2 tablet:px-4"
         )}
         variants={containerVariants}
       >
@@ -91,58 +199,174 @@ export const ProjectsHome = () => {
           <motion.div
             key={projectIndex}
             variants={itemVariants}
+            className="relative group"
           >
-            <ProjectCardHome
-              image_url={project.image_url}
-              name={project.name}
-              description={project.description}
-              skills={project.stack}
-            />
+            {/* Enhanced Project Card Container */}
+            <motion.div
+              className={clsx(
+                "relative overflow-hidden h-full",
+                "bg-gradient-to-br from-white/90 via-white/80 to-teal-50/60",
+                "dark:from-slate-800/90 dark:via-slate-800/80 dark:to-teal-950/60",
+                "backdrop-blur-lg",
+                "rounded-3xl p-0",
+                "border border-white/40 dark:border-slate-700/40",
+                "shadow-xl hover:shadow-2xl",
+                "transition-all duration-500",
+                "group",
+                "transform hover:scale-[1.02]"
+              )}
+              whileHover={{ 
+                y: -8,
+                transition: { duration: 0.3 }
+              }}
+            >
+              {/* Background pattern */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(20,184,166,0.05)_1px,transparent_0)] bg-[size:24px_24px] opacity-40" />
+              
+              {/* Floating particles */}
+              <motion.div
+                className="absolute top-4 right-4 w-2 h-2 bg-teal-400/30 rounded-full"
+                animate={{
+                  y: [-3, 3, -3],
+                  opacity: [0.3, 0.8, 0.3]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  delay: projectIndex * 0.5
+                }}
+              />
+              <motion.div
+                className="absolute bottom-6 left-6 w-1.5 h-1.5 bg-cyan-400/40 rounded-full"
+                animate={{
+                  y: [3, -3, 3],
+                  opacity: [0.4, 0.7, 0.4]
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  delay: (projectIndex * 0.5) + 1
+                }}
+              />
+              
+              {/* Hover glow effect */}
+              <div className={clsx(
+                "absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-10",
+                "bg-gradient-to-r from-teal-500 via-cyan-500 to-indigo-500",
+                "transition-opacity duration-500"
+              )} />
+              
+              <div className="relative z-10 h-full">
+                <ProjectCardHome
+                  image_url={project.image_url}
+                  name={project.name}
+                  description={project.description}
+                  skills={project.stack}
+                  index={projectIndex}
+                />
+              </div>
+            </motion.div>
           </motion.div>
         ))}
       </motion.div>
 
-      {/* View More Link */}
+      {/* Enhanced View More Link */}
       <motion.div
         variants={itemVariants}
-        className="pt-8"
+        className="pt-12 flex justify-center"
       >
         <motion.a
           href={dictionaries.project.cta.primary.url}
           target="_blank"
           rel="noopener noreferrer"
           className={clsx(
-            "group inline-flex items-center gap-3",
-            "px-6 py-3",
-            "text-sm tablet:text-base font-semibold",
-            "text-secondary-600 hover:text-secondary-500",
-            "dark:text-secondary-400 dark:hover:text-secondary-300",
-            "bg-secondary-50 hover:bg-secondary-100",
-            "dark:bg-secondary-900/20 dark:hover:bg-secondary-900/30",
-            "border border-secondary-200 hover:border-secondary-300",
-            "dark:border-secondary-700/50 dark:hover:border-secondary-600/50",
-            "rounded-xl",
+            "group relative overflow-hidden",
+            "inline-flex items-center gap-4",
+            "px-8 py-4",
+            "text-base tablet:text-lg font-semibold",
+            "bg-gradient-to-r from-teal-600 to-cyan-600",
+            "hover:from-teal-700 hover:to-cyan-700",
+            "text-white",
+            "rounded-2xl",
+            "shadow-xl hover:shadow-2xl",
+            "shadow-teal-500/25 hover:shadow-cyan-500/30",
+            "border border-white/20",
+            "backdrop-blur-sm",
             "transition-all duration-300",
-            "transform hover:scale-105 hover:shadow-lg"
+            "transform hover:scale-105"
           )}
           whileHover={{
             scale: 1.05,
+            y: -2,
             transition: { duration: 0.2 }
           }}
-          whileTap={{ scale: 0.95 }}
+          whileTap={{ scale: 0.98 }}
         >
-          <span>{dictionaries.project.cta.primary.children}</span>
+          {/* Animated background shine */}
           <motion.div
-            animate={{ x: [0, 4, 0] }}
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+            initial={{ x: "-100%" }}
+            whileHover={{ x: "100%" }}
+            transition={{ duration: 0.6 }}
+          />
+          
+          {/* Icon with animation */}
+          <motion.div
+            className={clsx(
+              "w-6 h-6 rounded-lg",
+              "bg-white/20 backdrop-blur-sm",
+              "flex items-center justify-center"
+            )}
+            whileHover={{ rotate: 360 }}
+            transition={{ duration: 0.5 }}
+          >
+            <FaFolderOpen size={14} />
+          </motion.div>
+          
+          <span className="relative z-10">
+            {dictionaries.project.cta.primary.children}
+          </span>
+          
+          {/* Animated arrow */}
+          <motion.div
+            animate={{ x: [0, 6, 0] }}
             transition={{
-              duration: 1.5,
+              duration: 2,
               repeat: Infinity,
               ease: "easeInOut"
             }}
-            className="text-secondary-500"
+            className="text-white/90"
           >
-            <GoArrowRight size={18} />
+            <GoArrowRight size={20} />
           </motion.div>
+          
+          {/* Floating particles */}
+          <div className="absolute inset-0 overflow-hidden rounded-2xl">
+            <motion.div
+              className="absolute top-2 left-4 w-1 h-1 bg-white/40 rounded-full"
+              animate={{
+                y: [-2, -8, -2],
+                opacity: [0, 1, 0]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                delay: 0.5
+              }}
+            />
+            <motion.div
+              className="absolute bottom-3 right-6 w-1 h-1 bg-white/30 rounded-full"
+              animate={{
+                y: [2, 8, 2],
+                opacity: [0, 1, 0]
+              }}
+              transition={{
+                duration: 2.5,
+                repeat: Infinity,
+                delay: 1
+              }}
+            />
+          </div>
         </motion.a>
       </motion.div>
     </motion.div>
