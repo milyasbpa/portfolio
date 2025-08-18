@@ -107,7 +107,6 @@ md.renderer.rules.tbody_open = () => {
 };
 
 md.renderer.rules.tr_open = (tokens, idx) => {
-  const token = tokens[idx];
   const isHeader = tokens.some((t, i) => i > idx && t.type === 'th_open' && i < tokens.findIndex((tok, j) => j > idx && tok.type === 'tr_close'));
   
   if (isHeader) {

@@ -70,7 +70,7 @@ export const BlogContent = ({ slug = "membangun-portfolio-modern" }: BlogContent
     
     return (
       <motion.div
-        className="prose prose-lg max-w-none [&>*]:animate-fade-in"
+        className="blog-content prose prose-lg max-w-none [&>*]:animate-fade-in"
         dangerouslySetInnerHTML={{ __html: htmlContent }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
