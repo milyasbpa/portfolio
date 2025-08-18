@@ -3,24 +3,11 @@ import clsx from "clsx";
 import { motion } from "framer-motion";
 import { FaClock, FaCalendarAlt, FaTag, FaUser } from "react-icons/fa";
 import { useBlogContext } from "../../i18n";
-import matter from 'gray-matter';
+import { getBlogBySlugForClient, formatDate, type BlogPost } from '../../utils/blogClient';
 import { renderMarkdown } from '../../utils/markdown';
 
 export interface BlogContentProps {
   slug?: string;
-}
-
-interface BlogPost {
-  title: string;
-  description: string;
-  date: string;
-  publishedAt: string;
-  readTime: string;
-  author: string;
-  tags: string[];
-  image?: string;
-  slug: string;
-  content: string;
 }
 
 export const BlogContent = ({ slug = "membangun-portfolio-modern" }: BlogContentProps) => {
@@ -28,42 +15,25 @@ export const BlogContent = ({ slug = "membangun-portfolio-modern" }: BlogContent
   const [blogPost, setBlogPost] = React.useState<BlogPost | null>(null);
   const [loading, setLoading] = React.useState(true);
 
-  const parseMarkdownContent = React.useCallback((markdownText: string): BlogPost => {
-    // Parse frontmatter and content
-    const { data: frontmatter, content } = matter(markdownText);
-    
-    return {
-      title: frontmatter.title || '',
-      description: frontmatter.description || '',
-      date: frontmatter.date || '',
-      publishedAt: frontmatter.publishedAt || '',
-      readTime: frontmatter.readTime || '',
-      author: frontmatter.author || '',
-      tags: frontmatter.tags || [],
-      image: frontmatter.image || '',
-      slug: frontmatter.slug || slug,
-      content: content.trim()
-    };
-  }, [slug]);
-
   React.useEffect(() => {
     const fetchBlogPost = async () => {
       try {
-        const response = await fetch(`/blog/${slug}.md`);
-        if (!response.ok) throw new Error('Blog post not found');
-        
-        const markdownText = await response.text();
-        const parsed = parseMarkdownContent(markdownText);
-        setBlogPost(parsed);
+        const blogData = await getBlogBySlugForClient(slug);
+        if (blogData) {
+          setBlogPost(blogData);
+        } else {
+          throw new Error('Blog post not found');
+        }
       } catch (error) {
         console.error('Error fetching blog post:', error);
+        setBlogPost(null);
       } finally {
         setLoading(false);
       }
     };
 
     fetchBlogPost();
-  }, [slug, parseMarkdownContent]);
+  }, [slug]);
 
   const formatContent = (content: string) => {
     const htmlContent = renderMarkdown(content);
@@ -144,7 +114,7 @@ export const BlogContent = ({ slug = "membangun-portfolio-modern" }: BlogContent
           
           <div className="flex items-center gap-2">
             <FaCalendarAlt className="w-4 h-4" />
-            <span>{dictionaries.meta.publishedAt} {blogPost.publishedAt}</span>
+            <span>{dictionaries.meta.publishedAt} {formatDate(blogPost.publishedAt, 'id')}</span>
           </div>
           
           <div className="flex items-center gap-2">
