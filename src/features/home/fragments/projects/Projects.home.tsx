@@ -213,7 +213,7 @@ export const ProjectsHome = () => {
       <motion.div
         className={clsx(
           "w-full max-w-7xl",
-          "grid grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-3 gap-8",
+          "grid grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-2 gap-8",
           "px-2 tablet:px-4"
         )}
         variants={containerVariants}
