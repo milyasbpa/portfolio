@@ -89,6 +89,42 @@ md.renderer.rules.blockquote_open = () => {
   return '<blockquote class="border-l-4 border-indigo-500 pl-6 my-6 italic text-slate-600 dark:text-slate-400">';
 };
 
+// Table rendering rules
+md.renderer.rules.table_open = () => {
+  return '<div class="overflow-x-auto my-8"><table class="min-w-full border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">';
+};
+
+md.renderer.rules.table_close = () => {
+  return '</table></div>';
+};
+
+md.renderer.rules.thead_open = () => {
+  return '<thead class="bg-slate-50 dark:bg-slate-800">';
+};
+
+md.renderer.rules.tbody_open = () => {
+  return '<tbody class="divide-y divide-slate-200 dark:divide-slate-700">';
+};
+
+md.renderer.rules.tr_open = (tokens, idx) => {
+  const token = tokens[idx];
+  const isHeader = tokens.some((t, i) => i > idx && t.type === 'th_open' && i < tokens.findIndex((tok, j) => j > idx && tok.type === 'tr_close'));
+  
+  if (isHeader) {
+    return '<tr>';
+  } else {
+    return '<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-200">';
+  }
+};
+
+md.renderer.rules.th_open = () => {
+  return '<th class="px-6 py-4 text-left text-sm font-semibold text-slate-900 dark:text-slate-100 border-b border-slate-200 dark:border-slate-700">';
+};
+
+md.renderer.rules.td_open = () => {
+  return '<td class="px-6 py-4 text-sm text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">';
+};
+
 export const renderMarkdown = (content: string): string => {
   return md.render(content);
 };
