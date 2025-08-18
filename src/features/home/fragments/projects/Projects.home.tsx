@@ -1,10 +1,10 @@
 import * as React from "react";
 import clsx from "clsx";
-import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { getDictionaries } from "../../i18n";
 import { ProjectCardHome } from "../../components/project_card";
 import { GoArrowRight } from "react-icons/go";
-import { FaRocket, FaCode, FaStar, FaEye, FaGithub, FaFolderOpen } from "react-icons/fa";
+import { FaRocket, FaCode, FaStar, FaEye, FaFolderOpen } from "react-icons/fa";
 
 export const ProjectsHome = () => {
   const dictionaries = getDictionaries();
@@ -18,9 +18,9 @@ export const ProjectsHome = () => {
       transition: {
         duration: 0.8,
         staggerChildren: 0.15,
-        delayChildren: 0.2
-      }
-    }
+        delayChildren: 0.2,
+      },
+    },
   };
 
   const itemVariants = {
@@ -31,9 +31,9 @@ export const ProjectsHome = () => {
       scale: 1,
       transition: {
         duration: 0.7,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }
-    }
+        ease: [0.25, 0.46, 0.45, 0.94],
+      },
+    },
   };
 
   const headerVariants = {
@@ -43,9 +43,9 @@ export const ProjectsHome = () => {
       y: 0,
       transition: {
         duration: 0.8,
-        ease: "easeOut"
-      }
-    }
+        ease: "easeOut",
+      },
+    },
   };
 
   return (
@@ -73,7 +73,7 @@ export const ProjectsHome = () => {
           transition={{
             duration: 12,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
         />
         <motion.div
@@ -86,10 +86,10 @@ export const ProjectsHome = () => {
             duration: 10,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 3
+            delay: 3,
           }}
         />
-        
+
         {/* Code pattern overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_24px,rgba(20,184,166,0.02)_25px,rgba(20,184,166,0.02)_26px,transparent_27px)] bg-[size:50px_50px] opacity-30" />
       </div>
@@ -108,16 +108,20 @@ export const ProjectsHome = () => {
         <motion.div
           className="flex justify-center mb-6"
           initial={{ scale: 0, rotate: -180 }}
-          animate={isInView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }}
+          animate={
+            isInView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }
+          }
           transition={{ duration: 0.8, type: "spring", stiffness: 200 }}
         >
-          <div className={clsx(
-            "w-16 h-16 rounded-2xl",
-            "bg-gradient-to-br from-teal-500 to-cyan-600",
-            "flex items-center justify-center",
-            "shadow-2xl shadow-teal-500/25",
-            "border border-white/20"
-          )}>
+          <div
+            className={clsx(
+              "w-16 h-16 rounded-2xl",
+              "bg-gradient-to-br from-teal-500 to-cyan-600",
+              "flex items-center justify-center",
+              "shadow-2xl shadow-teal-500/25",
+              "border border-white/20"
+            )}
+          >
             <FaRocket className="text-white text-2xl" />
           </div>
         </motion.div>
@@ -133,12 +137,14 @@ export const ProjectsHome = () => {
         >
           {dictionaries.project.title}
         </motion.h2>
-        
+
         {/* Decorative elements */}
         <motion.div
           className="flex justify-center items-center space-x-2 mb-8"
           initial={{ opacity: 0, scale: 0 }}
-          animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+          animate={
+            isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }
+          }
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <div className="w-2 h-2 bg-teal-500 rounded-full animate-pulse" />
@@ -152,9 +158,24 @@ export const ProjectsHome = () => {
           variants={containerVariants}
         >
           {[
-            { icon: FaCode, label: "Projects", value: "10++", color: "from-teal-500 to-cyan-600" },
-            { icon: FaStar, label: "Technologies", value: "15++", color: "from-cyan-500 to-blue-600" },
-            { icon: FaEye, label: "Live Sites", value: "8++", color: "from-indigo-500 to-purple-600" }
+            {
+              icon: FaCode,
+              label: "Projects",
+              value: "10++",
+              color: "from-teal-500 to-cyan-600",
+            },
+            {
+              icon: FaStar,
+              label: "Technologies",
+              value: "15++",
+              color: "from-cyan-500 to-blue-600",
+            },
+            {
+              icon: FaEye,
+              label: "Live Sites",
+              value: "8++",
+              color: "from-indigo-500 to-purple-600",
+            },
           ].map((stat, index) => (
             <motion.div
               key={index}
@@ -168,11 +189,13 @@ export const ProjectsHome = () => {
               )}
               whileHover={{ scale: 1.05, y: -5 }}
             >
-              <div className={clsx(
-                "w-8 h-8 mx-auto mb-2 rounded-lg flex items-center justify-center",
-                `bg-gradient-to-r ${stat.color}`,
-                "text-white shadow-lg"
-              )}>
+              <div
+                className={clsx(
+                  "w-8 h-8 mx-auto mb-2 rounded-lg flex items-center justify-center",
+                  `bg-gradient-to-r ${stat.color}`,
+                  "text-white shadow-lg"
+                )}
+              >
                 <stat.icon size={12} />
               </div>
               <div className="text-lg font-bold text-slate-800 dark:text-slate-200">
@@ -189,8 +212,8 @@ export const ProjectsHome = () => {
       {/* Project Cards Grid */}
       <motion.div
         className={clsx(
-          "w-full max-w-6xl",
-          "grid grid-cols-1 tablet:grid-cols-2 gap-12",
+          "w-full max-w-7xl",
+          "grid grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-3 gap-8",
           "px-2 tablet:px-4"
         )}
         variants={containerVariants}
@@ -199,82 +222,21 @@ export const ProjectsHome = () => {
           <motion.div
             key={projectIndex}
             variants={itemVariants}
-            className="relative group"
+            className="relative"
           >
-            {/* Enhanced Project Card Container */}
-            <motion.div
-              className={clsx(
-                "relative overflow-hidden h-full",
-                "bg-gradient-to-br from-white/90 via-white/80 to-teal-50/60",
-                "dark:from-slate-800/90 dark:via-slate-800/80 dark:to-teal-950/60",
-                "backdrop-blur-lg",
-                "rounded-3xl p-0",
-                "border border-white/40 dark:border-slate-700/40",
-                "shadow-xl hover:shadow-2xl",
-                "transition-all duration-500",
-                "group",
-                "transform hover:scale-[1.02]"
-              )}
-              whileHover={{ 
-                y: -8,
-                transition: { duration: 0.3 }
-              }}
-            >
-              {/* Background pattern */}
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(20,184,166,0.05)_1px,transparent_0)] bg-[size:24px_24px] opacity-40" />
-              
-              {/* Floating particles */}
-              <motion.div
-                className="absolute top-4 right-4 w-2 h-2 bg-teal-400/30 rounded-full"
-                animate={{
-                  y: [-3, 3, -3],
-                  opacity: [0.3, 0.8, 0.3]
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  delay: projectIndex * 0.5
-                }}
-              />
-              <motion.div
-                className="absolute bottom-6 left-6 w-1.5 h-1.5 bg-cyan-400/40 rounded-full"
-                animate={{
-                  y: [3, -3, 3],
-                  opacity: [0.4, 0.7, 0.4]
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  delay: (projectIndex * 0.5) + 1
-                }}
-              />
-              
-              {/* Hover glow effect */}
-              <div className={clsx(
-                "absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-10",
-                "bg-gradient-to-r from-teal-500 via-cyan-500 to-indigo-500",
-                "transition-opacity duration-500"
-              )} />
-              
-              <div className="relative z-10 h-full">
-                <ProjectCardHome
-                  image_url={project.image_url}
-                  name={project.name}
-                  description={project.description}
-                  skills={project.stack}
-                  index={projectIndex}
-                />
-              </div>
-            </motion.div>
+            <ProjectCardHome
+              image_url={project.image_url}
+              name={project.name}
+              description={project.description}
+              skills={project.stack}
+              index={projectIndex}
+            />
           </motion.div>
         ))}
       </motion.div>
 
       {/* Enhanced View More Link */}
-      <motion.div
-        variants={itemVariants}
-        className="pt-12 flex justify-center"
-      >
+      <motion.div variants={itemVariants} className="pt-12 flex justify-center">
         <motion.a
           href={dictionaries.project.cta.primary.url}
           target="_blank"
@@ -298,7 +260,7 @@ export const ProjectsHome = () => {
           whileHover={{
             scale: 1.05,
             y: -2,
-            transition: { duration: 0.2 }
+            transition: { duration: 0.2 },
           }}
           whileTap={{ scale: 0.98 }}
         >
@@ -309,7 +271,7 @@ export const ProjectsHome = () => {
             whileHover={{ x: "100%" }}
             transition={{ duration: 0.6 }}
           />
-          
+
           {/* Icon with animation */}
           <motion.div
             className={clsx(
@@ -322,48 +284,48 @@ export const ProjectsHome = () => {
           >
             <FaFolderOpen size={14} />
           </motion.div>
-          
+
           <span className="relative z-10">
             {dictionaries.project.cta.primary.children}
           </span>
-          
+
           {/* Animated arrow */}
           <motion.div
             animate={{ x: [0, 6, 0] }}
             transition={{
               duration: 2,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: "easeInOut",
             }}
             className="text-white/90"
           >
             <GoArrowRight size={20} />
           </motion.div>
-          
+
           {/* Floating particles */}
           <div className="absolute inset-0 overflow-hidden rounded-2xl">
             <motion.div
               className="absolute top-2 left-4 w-1 h-1 bg-white/40 rounded-full"
               animate={{
                 y: [-2, -8, -2],
-                opacity: [0, 1, 0]
+                opacity: [0, 1, 0],
               }}
               transition={{
                 duration: 2,
                 repeat: Infinity,
-                delay: 0.5
+                delay: 0.5,
               }}
             />
             <motion.div
               className="absolute bottom-3 right-6 w-1 h-1 bg-white/30 rounded-full"
               animate={{
                 y: [2, 8, 2],
-                opacity: [0, 1, 0]
+                opacity: [0, 1, 0],
               }}
               transition={{
                 duration: 2.5,
                 repeat: Infinity,
-                delay: 1
+                delay: 1,
               }}
             />
           </div>

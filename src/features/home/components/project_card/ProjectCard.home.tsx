@@ -15,7 +15,6 @@ export interface ProjectCardHomeProps {
 }
 
 export const ProjectCardHome = ({
-  id = "",
   name = "",
   link = "",
   description = "",
@@ -30,8 +29,8 @@ export const ProjectCardHome = ({
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   
-  const rotateX = useTransform(mouseY, [-300, 300], [20, -20]);
-  const rotateY = useTransform(mouseX, [-300, 300], [-20, 20]);
+  const rotateX = useTransform(mouseY, [-300, 300], [10, -10]);
+  const rotateY = useTransform(mouseX, [-300, 300], [-10, 10]);
 
   const handleMouseMove = (event: React.MouseEvent) => {
     if (!ref.current) return;
@@ -53,19 +52,16 @@ export const ProjectCardHome = ({
     hidden: { 
       opacity: 0, 
       y: 60, 
-      scale: 0.9,
-      rotateX: 0 
+      scale: 0.9
     },
     visible: {
       opacity: 1,
       y: 0,
       scale: 1,
-      rotateX: 0,
       transition: {
         duration: 0.8,
-        delay: index * 0.2,
-        ease: [0.25, 0.46, 0.45, 0.94],
-        staggerChildren: 0.1
+        delay: index * 0.15,
+        ease: [0.25, 0.46, 0.45, 0.94]
       }
     }
   };
@@ -83,28 +79,6 @@ export const ProjectCardHome = ({
     }
   };
 
-  const skillVariants = {
-    hidden: { opacity: 0, scale: 0.8, y: 10 },
-    visible: (i: number) => ({
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: {
-        duration: 0.4,
-        delay: i * 0.05,
-        ease: "easeOut"
-      }
-    })
-  };
-
-  const floatingParticles = Array.from({ length: 3 }, (_, i) => ({
-    id: i,
-    delay: i * 0.7,
-    duration: 3 + i,
-    x: [0, 30, -15, 0],
-    y: [0, -20, -35, 0]
-  }));
-
   return (
     <motion.div
       ref={ref}
@@ -117,47 +91,18 @@ export const ProjectCardHome = ({
         transformStyle: "preserve-3d",
         perspective: 1000
       }}
-      className="relative px-6 py-6"
+      className="relative pt-4 pl-4"
     >
-      {/* Floating Particles */}
-      {floatingParticles.map((particle) => (
-        <motion.div
-          key={particle.id}
-          className="absolute inset-4 pointer-events-none overflow-hidden"
-          animate={{
-            x: particle.x,
-            y: particle.y
-          }}
-          transition={{
-            duration: particle.duration,
-            repeat: Infinity,
-            repeatType: "reverse",
-            delay: particle.delay,
-            ease: "easeInOut"
-          }}
-        >
-          <div 
-            className={clsx(
-              "w-1 h-1 rounded-full",
-              "bg-gradient-to-r from-indigo-400 to-purple-500",
-              "opacity-20 group-hover:opacity-40",
-              "transition-opacity duration-500"
-            )} 
-          />
-        </motion.div>
-      ))}
-
       {/* Project Number Badge */}
       <motion.div
         className={clsx(
-          "absolute -top-4 -left-4 z-20",
-          "w-10 h-10 rounded-full",
+          "absolute -top-2 -left-2 z-20",
+          "w-8 h-8 rounded-full",
           "bg-gradient-to-br from-teal-400 via-cyan-500 to-indigo-600",
           "flex items-center justify-center",
           "text-white text-sm font-bold",
-          "shadow-lg shadow-teal-500/25",
-          "border-3 border-white/30",
-          "backdrop-blur-sm"
+          "shadow-lg shadow-teal-500/20",
+          "border-2 border-white/20"
         )}
         initial={{ scale: 0, rotate: -180 }}
         animate={isInView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }}
@@ -201,44 +146,31 @@ export const ProjectCardHome = ({
           "dark:shadow-black/20 dark:hover:shadow-indigo-500/20",
           "transition-all duration-500 ease-out",
           "cursor-pointer",
-          "transform-gpu",
-          "overflow-visible"
+          "transform-gpu"
         )}
       >
         {/* Animated Background Gradient */}
         <motion.div 
           className={clsx(
-            "absolute inset-0 opacity-0 group-hover:opacity-10 overflow-hidden",
+            "absolute inset-0 opacity-0 group-hover:opacity-10 rounded-2xl tablet:rounded-3xl",
             "bg-gradient-to-br from-teal-400 via-indigo-500 to-purple-600",
-            "transition-opacity duration-700",
-            "rounded-2xl tablet:rounded-3xl"
+            "transition-opacity duration-700"
           )}
-          animate={{
-            background: [
-              "linear-gradient(45deg, #14B8A6, #6366F1, #8B5CF6)",
-              "linear-gradient(135deg, #06B6D4, #3B82F6, #6366F1)",
-              "linear-gradient(225deg, #8B5CF6, #14B8A6, #06B6D4)",
-              "linear-gradient(315deg, #6366F1, #8B5CF6, #14B8A6)"
-            ]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            repeatType: "reverse",
-            ease: "linear"
-          }}
         />
         
         {/* Premium Shine Effect */}
         <motion.div 
-          className={clsx(
-            "absolute inset-0 opacity-0 group-hover:opacity-100 overflow-hidden",
-            "bg-gradient-to-r from-transparent via-white/20 to-transparent",
-            "transform -skew-x-12 -translate-x-full group-hover:translate-x-full",
-            "transition-all duration-1200 ease-out",
-            "rounded-2xl tablet:rounded-3xl"
-          )}
-        />
+          className="absolute inset-0 rounded-2xl tablet:rounded-3xl overflow-hidden"
+        >
+          <motion.div
+            className={clsx(
+              "absolute inset-0 opacity-0 group-hover:opacity-100",
+              "bg-gradient-to-r from-transparent via-white/20 to-transparent",
+              "transform -skew-x-12 -translate-x-full group-hover:translate-x-full",
+              "transition-all duration-1200 ease-out"
+            )}
+          />
+        </motion.div>
 
         <div className={clsx(
           "relative z-10",
@@ -294,13 +226,6 @@ export const ProjectCardHome = ({
                 <FaGithub className="w-6 h-6" />
               </div>
             )}
-            
-            {/* Image overlay with gradient */}
-            <div className={clsx(
-              "absolute inset-0 bg-gradient-to-t from-indigo-500/0 to-transparent",
-              "group-hover:from-indigo-500/20",
-              "transition-all duration-500"
-            )} />
           </motion.div>
 
           {/* Enhanced Content */}
@@ -382,11 +307,9 @@ export const ProjectCardHome = ({
               )}
               variants={contentVariants}
             >
-              {skills.map((skill, skillIndex) => (
+              {skills.map((skill) => (
                 <motion.span
                   key={skill.id}
-                  custom={skillIndex}
-                  variants={skillVariants}
                   whileHover={{
                     scale: 1.05,
                     y: -2,
