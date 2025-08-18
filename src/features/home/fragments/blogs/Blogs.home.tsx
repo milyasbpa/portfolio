@@ -268,24 +268,22 @@ export const BlogsHome = () => {
             </motion.div>
           ))
         ) : blogs.length > 0 ? (
-          blogs
-            .filter((_, index) => index < 4)
-            .map((blog, blogIndex) => (
-              <motion.div
-                key={blog.slug}
-                variants={itemVariants}
-                className="relative"
-              >
-                <BlogCardHome
-                  title={blog.title}
-                  description={blog.description}
-                  slug={blog.slug}
-                  date={formatDate(blog.date, "id")}
-                  readTime={blog.readTime}
-                  index={blogIndex}
-                />
-              </motion.div>
-            ))
+          blogs.map((blog, blogIndex) => (
+            <motion.div
+              key={blog.slug}
+              variants={itemVariants}
+              className="relative"
+            >
+              <BlogCardHome
+                title={blog.title}
+                description={blog.description}
+                slug={blog.slug}
+                date={formatDate(blog.date, "id")}
+                readTime={blog.readTime}
+                index={blogIndex}
+              />
+            </motion.div>
+          ))
         ) : (
           // No blogs found
           <motion.div
