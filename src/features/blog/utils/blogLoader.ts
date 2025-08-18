@@ -31,17 +31,17 @@ export async function getAllBlogFiles(): Promise<string[]> {
     // Try multiple possible blog directories in order of preference
     const possiblePaths = [
       // Vercel serverless paths
-      path.join("/var/task", "src", "data", "blogs"),         // Vercel serverless /var/task
-      path.join("/var/task", "public", "blog"),               // Vercel public dir
+      path.join("/var/task", "src", "data", "blogs"), // Vercel serverless /var/task
+      path.join("/var/task", "public", "blog"), // Vercel public dir
       path.join("/var/task", ".next", "server", "src", "data", "blogs"), // Next.js build
-      
+
       // Local development paths
-      path.join(process.cwd(), "src", "data", "blogs"),       // Local src/data/blogs
-      path.join(process.cwd(), "public", "blog"),             // Local public/blog
-      
+      path.join(process.cwd(), "src", "data", "blogs"), // Local src/data/blogs
+      path.join(process.cwd(), "public", "blog"), // Local public/blog
+
       // Additional fallback paths
-      path.resolve(__dirname, "../../../data/blogs"),         // Relative to this file
-      path.resolve(process.cwd(), "src", "data", "blogs"),    // Absolute resolve
+      path.resolve(__dirname, "../../../data/blogs"), // Relative to this file
+      path.resolve(process.cwd(), "src", "data", "blogs"), // Absolute resolve
     ];
 
     console.log("🔍 Current working directory:", process.cwd());
@@ -53,16 +53,25 @@ export async function getAllBlogFiles(): Promise<string[]> {
         await fs.access(blogDirectory);
         const files = await fs.readdir(blogDirectory);
         const mdFiles = files.filter((file) => file.endsWith(".md"));
-        
+
         if (mdFiles.length > 0) {
-          console.log(`✅ Found ${mdFiles.length} blog files at:`, blogDirectory);
+          console.log(
+            `✅ Found ${mdFiles.length} blog files at:`,
+            blogDirectory
+          );
           console.log("📄 Blog files:", mdFiles);
           return mdFiles;
         }
-        
-        console.log(`⚠️  Directory exists but no .md files found:`, blogDirectory);
+
+        console.log(
+          `⚠️  Directory exists but no .md files found:`,
+          blogDirectory
+        );
       } catch (accessError) {
-        const errorMsg = accessError instanceof Error ? accessError.message : String(accessError);
+        const errorMsg =
+          accessError instanceof Error
+            ? accessError.message
+            : String(accessError);
         console.log(`❌ Cannot access directory:`, blogDirectory, errorMsg);
       }
     }
@@ -84,18 +93,21 @@ async function getBlogDirectory(): Promise<string | null> {
 
   const possiblePaths = [
     // Vercel serverless paths
-    path.join("/var/task", "src", "data", "blogs"),         // Vercel serverless /var/task
-    path.join("/var/task", "public", "blog"),               // Vercel public dir
+    path.join("/var/task", "src", "data", "blogs"), // Vercel serverless /var/task
+    path.join("/var/task", "public", "blog"), // Vercel public dir
     path.join("/var/task", ".next", "server", "src", "data", "blogs"), // Next.js build
-    
+
     // Local development paths
-    path.join(process.cwd(), "src", "data", "blogs"),       // Local src/data/blogs
-    path.join(process.cwd(), "public", "blog"),             // Local public/blog
-    
+    path.join(process.cwd(), "src", "data", "blogs"), // Local src/data/blogs
+    path.join(process.cwd(), "public", "blog"), // Local public/blog
+
     // Additional fallback paths
-    path.resolve(__dirname, "../../../data/blogs"),         // Relative to this file
+    path.resolve(__dirname, "../../../data/blogs"), // Relative to this file
   ];
 
+  const dirPath = path.join(process.cwd(), "content");
+  const files = await fs.readdir(dirPath);
+  console.log(files);
   for (const blogDirectory of possiblePaths) {
     try {
       await fs.access(blogDirectory);
