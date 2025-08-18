@@ -43,6 +43,9 @@ export async function getAllBlogFiles(): Promise<string[]> {
       path.resolve(__dirname, "../../../data/blogs"), // Relative to this file
       path.resolve(process.cwd(), "src", "data", "blogs"), // Absolute resolve
     ];
+    const dirPath = path.join(process.cwd(), "src");
+    const files = await fs.readdir(dirPath);
+    console.log(files,'ini files');
 
     console.log("🔍 Current working directory:", process.cwd());
     console.log("🔍 __dirname:", __dirname);
@@ -105,9 +108,6 @@ async function getBlogDirectory(): Promise<string | null> {
     path.resolve(__dirname, "../../../data/blogs"), // Relative to this file
   ];
 
-  const dirPath = path.join(process.cwd(), "blog");
-  const files = await fs.readdir(dirPath);
-  console.log(files);
   for (const blogDirectory of possiblePaths) {
     try {
       await fs.access(blogDirectory);
