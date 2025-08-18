@@ -33,9 +33,9 @@ export const ExperienceCardHome = ({
       transition: {
         duration: 0.6,
         ease: "easeOut",
-        staggerChildren: 0.1
-      }
-    }
+        staggerChildren: 0.1,
+      },
+    },
   };
 
   const skillVariants = {
@@ -45,9 +45,9 @@ export const ExperienceCardHome = ({
       scale: 1,
       transition: {
         duration: 0.3,
-        ease: "easeOut"
-      }
-    }
+        ease: "easeOut",
+      },
+    },
   };
 
   return (
@@ -63,13 +63,10 @@ export const ExperienceCardHome = ({
         href={company_link}
         target="_blank"
         rel="noopener noreferrer"
-        className={clsx(
-          "group relative block w-full p-0",
-          "cursor-pointer"
-        )}
+        className={clsx("group relative block w-full p-0", "cursor-pointer")}
         whileHover={{
           scale: 1.01,
-          transition: { duration: 0.2 }
+          transition: { duration: 0.2 },
         }}
       >
         {/* Card Content */}
@@ -93,10 +90,12 @@ export const ExperienceCardHome = ({
               transition={{ duration: 0.2 }}
             >
               <FaClock className="text-indigo-600 dark:text-indigo-400 text-sm" />
-              <span className={clsx(
-                "text-sm font-semibold",
-                "text-indigo-700 dark:text-indigo-300"
-              )}>
+              <span
+                className={clsx(
+                  "text-sm font-semibold",
+                  "text-indigo-700 dark:text-indigo-300"
+                )}
+              >
                 {period}
               </span>
             </motion.div>
@@ -114,10 +113,12 @@ export const ExperienceCardHome = ({
               )}
             >
               <FaBuilding className="text-teal-600 dark:text-teal-400 text-sm" />
-              <span className={clsx(
-                "text-sm font-semibold",
-                "text-teal-700 dark:text-teal-300"
-              )}>
+              <span
+                className={clsx(
+                  "text-sm font-semibold",
+                  "text-teal-700 dark:text-teal-300"
+                )}
+              >
                 {company}
               </span>
               <motion.div
@@ -131,45 +132,40 @@ export const ExperienceCardHome = ({
           </motion.div>
 
           {/* Position Title */}
-          <motion.div
-            variants={cardVariants}
-            className="space-y-2"
-          >
-            <h3 className={clsx(
-              "text-xl tablet:text-2xl font-bold",
-              "bg-gradient-to-r from-slate-800 via-indigo-700 to-purple-700",
-              "dark:from-slate-100 dark:via-indigo-300 dark:to-purple-300",
-              "bg-clip-text text-transparent",
-              "leading-tight"
-            )}>
+          <motion.div variants={cardVariants} className="space-y-2">
+            <h3
+              className={clsx(
+                "text-xl tablet:text-2xl font-bold",
+                "bg-gradient-to-r from-slate-800 via-indigo-700 to-purple-700",
+                "dark:from-slate-100 dark:via-indigo-300 dark:to-purple-300",
+                "bg-clip-text text-transparent",
+                "leading-tight"
+              )}
+            >
               {position}
             </h3>
           </motion.div>
 
           {/* Description */}
-          <motion.div
-            variants={cardVariants}
-            className="space-y-3"
-          >
-            <p className={clsx(
-              "text-base tablet:text-lg leading-relaxed",
-              "text-slate-700 dark:text-slate-300",
-              "font-medium"
-            )}>
+          <motion.div variants={cardVariants} className="space-y-3">
+            <p
+              className={clsx(
+                "text-base tablet:text-lg leading-relaxed",
+                "text-slate-700 dark:text-slate-300",
+                "font-medium"
+              )}
+            >
               {description}
             </p>
           </motion.div>
 
           {/* Skills */}
-          <motion.div
-            variants={cardVariants}
-            className="space-y-3"
-          >
+          <motion.div variants={cardVariants} className="space-y-3">
             <motion.div
               className="flex flex-wrap gap-2"
               variants={cardVariants}
             >
-              {skills.map((skill, skillIndex) => (
+              {skills.map((skill) => (
                 <motion.span
                   key={skill.id}
                   variants={skillVariants}
@@ -188,7 +184,7 @@ export const ExperienceCardHome = ({
                   whileHover={{
                     scale: 1.05,
                     y: -2,
-                    transition: { duration: 0.2 }
+                    transition: { duration: 0.2 },
                   }}
                 >
                   {skill.name}

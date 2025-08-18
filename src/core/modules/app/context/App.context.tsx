@@ -1,6 +1,6 @@
 "use client";
 import React, { createContext, useReducer, Dispatch, useEffect } from "react";
-import { AppActions, AppInitialStateType, AppTheme } from "./App.types";
+import { AppActions, AppInitialStateType } from "./App.types";
 import { AppThemeReducers } from "./App.reducers";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 
@@ -18,7 +18,10 @@ const AppContext = createContext<{
   dispatch: () => null,
 });
 
-const mainReducer = (state: AppInitialStateType, action: AppActions): AppInitialStateType => ({
+const mainReducer = (
+  state: AppInitialStateType,
+  action: AppActions
+): AppInitialStateType => ({
   theme: AppThemeReducers(state.theme, action),
 });
 
@@ -34,11 +37,11 @@ const AppProvider = (props: { children: React.ReactNode }) => {
   // Apply theme to document
   useEffect(() => {
     if (mounted) {
-      document.documentElement.setAttribute('data-theme', state.theme.mode);
-      
+      document.documentElement.setAttribute("data-theme", state.theme.mode);
+
       // Also set class for compatibility
       const classList = document.documentElement.classList;
-      classList.remove('light', 'dark', 'night');
+      classList.remove("light", "dark", "night");
       classList.add(state.theme.mode);
     }
   }, [state.theme.mode, mounted]);
@@ -48,10 +51,10 @@ const AppProvider = (props: { children: React.ReactNode }) => {
   }
 
   return (
-    <NextThemesProvider 
-      attribute="class" 
+    <NextThemesProvider
+      attribute="class"
       defaultTheme={state.theme.mode}
-      themes={['light', 'dark', 'night']}
+      themes={["light", "dark", "night"]}
       enableSystem={false}
     >
       <AppContext.Provider value={{ state, dispatch }}>

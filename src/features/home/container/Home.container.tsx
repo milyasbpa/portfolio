@@ -8,13 +8,13 @@ import { ExperiencesHome } from "../fragments/experiences/Experiences.home";
 import { ProjectsHome } from "../fragments/projects";
 import { BlogsHome } from "../fragments/blogs";
 import SVGIcon from "@/core/ui/icons";
-import { AppContext } from "@/core/modules/app/context";
+// import { AppContext } from "@/core/modules/app/context";
 import { AboutHome } from "../fragments/about/About.home";
-import { ThemeToggle } from "@/core/modules/app/fragments/theme";
+// import { ThemeToggle } from "@/core/modules/app/fragments/theme";
 
 export const HomeContainer = () => {
   const dictionaries = getDictionaries();
-  const { state } = React.useContext(AppContext);
+  // const { state } = React.useContext(AppContext);
 
   return (
     <>

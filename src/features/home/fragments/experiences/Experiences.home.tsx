@@ -1,6 +1,6 @@
 import * as React from "react";
 import clsx from "clsx";
-import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { getDictionaries } from "../../i18n";
 import { ExperienceCardHome } from "../../components/experience_card/ExperienceCard.home";
 import { GoArrowRight } from "react-icons/go";
@@ -10,7 +10,7 @@ export const ExperiencesHome = () => {
   const dictionaries = getDictionaries();
   const ref = React.useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -18,9 +18,9 @@ export const ExperiencesHome = () => {
       transition: {
         duration: 0.8,
         staggerChildren: 0.15,
-        delayChildren: 0.2
-      }
-    }
+        delayChildren: 0.2,
+      },
+    },
   };
 
   const itemVariants = {
@@ -31,9 +31,9 @@ export const ExperiencesHome = () => {
       scale: 1,
       transition: {
         duration: 0.7,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }
-    }
+        ease: [0.25, 0.46, 0.45, 0.94],
+      },
+    },
   };
 
   const headerVariants = {
@@ -43,9 +43,9 @@ export const ExperiencesHome = () => {
       y: 0,
       transition: {
         duration: 0.8,
-        ease: "easeOut"
-      }
-    }
+        ease: "easeOut",
+      },
+    },
   };
 
   return (
@@ -73,7 +73,7 @@ export const ExperiencesHome = () => {
           transition={{
             duration: 8,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
         />
         <motion.div
@@ -86,7 +86,7 @@ export const ExperiencesHome = () => {
             duration: 10,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 2
+            delay: 2,
           }}
         />
       </div>
@@ -105,16 +105,20 @@ export const ExperiencesHome = () => {
         <motion.div
           className="flex justify-center mb-6"
           initial={{ scale: 0, rotate: -180 }}
-          animate={isInView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }}
+          animate={
+            isInView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }
+          }
           transition={{ duration: 0.8, type: "spring", stiffness: 200 }}
         >
-          <div className={clsx(
-            "w-16 h-16 rounded-2xl",
-            "bg-gradient-to-br from-indigo-500 to-purple-600",
-            "flex items-center justify-center",
-            "shadow-2xl shadow-indigo-500/25",
-            "border border-white/20"
-          )}>
+          <div
+            className={clsx(
+              "w-16 h-16 rounded-2xl",
+              "bg-gradient-to-br from-indigo-500 to-purple-600",
+              "flex items-center justify-center",
+              "shadow-2xl shadow-indigo-500/25",
+              "border border-white/20"
+            )}
+          >
             <FaBriefcase className="text-white text-2xl" />
           </div>
         </motion.div>
@@ -130,12 +134,14 @@ export const ExperiencesHome = () => {
         >
           {dictionaries.experience.title}
         </motion.h2>
-        
+
         {/* Decorative elements */}
         <motion.div
           className="flex justify-center items-center space-x-2 mb-8"
           initial={{ opacity: 0, scale: 0 }}
-          animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+          animate={
+            isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }
+          }
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <div className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse" />
@@ -149,9 +155,24 @@ export const ExperiencesHome = () => {
           variants={containerVariants}
         >
           {[
-            { icon: FaStar, label: "Years", value: "5++", color: "from-indigo-500 to-blue-600" },
-            { icon: FaBuilding, label: "Companies", value: "3+", color: "from-purple-500 to-pink-600" },
-            { icon: FaCalendarAlt, label: "Projects", value: "20++", color: "from-teal-500 to-cyan-600" }
+            {
+              icon: FaStar,
+              label: "Years",
+              value: "5++",
+              color: "from-indigo-500 to-blue-600",
+            },
+            {
+              icon: FaBuilding,
+              label: "Companies",
+              value: "3+",
+              color: "from-purple-500 to-pink-600",
+            },
+            {
+              icon: FaCalendarAlt,
+              label: "Projects",
+              value: "20++",
+              color: "from-teal-500 to-cyan-600",
+            },
           ].map((stat, index) => (
             <motion.div
               key={index}
@@ -165,11 +186,13 @@ export const ExperiencesHome = () => {
               )}
               whileHover={{ scale: 1.05, y: -5 }}
             >
-              <div className={clsx(
-                "w-8 h-8 mx-auto mb-2 rounded-lg flex items-center justify-center",
-                `bg-gradient-to-r ${stat.color}`,
-                "text-white shadow-lg"
-              )}>
+              <div
+                className={clsx(
+                  "w-8 h-8 mx-auto mb-2 rounded-lg flex items-center justify-center",
+                  `bg-gradient-to-r ${stat.color}`,
+                  "text-white shadow-lg"
+                )}
+              >
                 <stat.icon size={12} />
               </div>
               <div className="text-lg font-bold text-slate-800 dark:text-slate-200">
@@ -185,10 +208,7 @@ export const ExperiencesHome = () => {
 
       {/* Experience Cards */}
       <motion.div
-        className={clsx(
-          "w-full max-w-4xl",
-          "space-y-8"
-        )}
+        className={clsx("w-full max-w-4xl", "space-y-8")}
         variants={containerVariants}
       >
         {dictionaries.experience.items.map((experience, experienceIndex) => (
@@ -199,13 +219,15 @@ export const ExperiencesHome = () => {
           >
             {/* Timeline connector */}
             {experienceIndex < dictionaries.experience.items.length - 1 && (
-              <div className={clsx(
-                "absolute left-8 -bottom-8 w-px h-8",
-                "bg-gradient-to-b from-indigo-400/50 to-purple-400/30",
-                "z-0"
-              )} />
+              <div
+                className={clsx(
+                  "absolute left-8 -bottom-8 w-px h-8",
+                  "bg-gradient-to-b from-indigo-400/50 to-purple-400/30",
+                  "z-0"
+                )}
+              />
             )}
-            
+
             {/* Enhanced Experience Card Container */}
             <motion.div
               className={clsx(
@@ -220,15 +242,15 @@ export const ExperiencesHome = () => {
                 "group",
                 "z-10"
               )}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.02,
                 y: -5,
-                transition: { duration: 0.3 }
+                transition: { duration: 0.3 },
               }}
             >
               {/* Background pattern */}
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(99,102,241,0.05)_1px,transparent_0)] bg-[size:20px_20px] opacity-40" />
-              
+
               {/* Timeline dot */}
               <motion.div
                 className={clsx(
@@ -241,16 +263,21 @@ export const ExperiencesHome = () => {
                 )}
                 initial={{ scale: 0 }}
                 animate={isInView ? { scale: 1 } : { scale: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 + experienceIndex * 0.1 }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.1 + experienceIndex * 0.1,
+                }}
               />
-              
+
               {/* Hover glow effect */}
-              <div className={clsx(
-                "absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-10",
-                "bg-gradient-to-r from-indigo-500 via-purple-500 to-teal-500",
-                "transition-opacity duration-500"
-              )} />
-              
+              <div
+                className={clsx(
+                  "absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-10",
+                  "bg-gradient-to-r from-indigo-500 via-purple-500 to-teal-500",
+                  "transition-opacity duration-500"
+                )}
+              />
+
               <div className="relative z-10">
                 <ExperienceCardHome
                   position={experience.position}
@@ -267,10 +294,7 @@ export const ExperiencesHome = () => {
       </motion.div>
 
       {/* Enhanced View More Link */}
-      <motion.div
-        variants={itemVariants}
-        className="pt-12 flex justify-center"
-      >
+      <motion.div variants={itemVariants} className="pt-12 flex justify-center">
         <motion.a
           id={dictionaries.experience.cta.primary.id}
           href={dictionaries.experience.cta.primary.url}
@@ -295,7 +319,7 @@ export const ExperiencesHome = () => {
           whileHover={{
             scale: 1.05,
             y: -2,
-            transition: { duration: 0.2 }
+            transition: { duration: 0.2 },
           }}
           whileTap={{ scale: 0.98 }}
         >
@@ -306,7 +330,7 @@ export const ExperiencesHome = () => {
             whileHover={{ x: "100%" }}
             transition={{ duration: 0.6 }}
           />
-          
+
           {/* Icon with animation */}
           <motion.div
             className={clsx(
@@ -319,48 +343,48 @@ export const ExperiencesHome = () => {
           >
             <FaBriefcase size={14} />
           </motion.div>
-          
+
           <span className="relative z-10">
             {dictionaries.experience.cta.primary.children}
           </span>
-          
+
           {/* Animated arrow */}
           <motion.div
             animate={{ x: [0, 6, 0] }}
             transition={{
               duration: 2,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: "easeInOut",
             }}
             className="text-white/90"
           >
             <GoArrowRight size={20} />
           </motion.div>
-          
+
           {/* Floating particles */}
           <div className="absolute inset-0 overflow-hidden rounded-2xl">
             <motion.div
               className="absolute top-2 left-4 w-1 h-1 bg-white/40 rounded-full"
               animate={{
                 y: [-2, -8, -2],
-                opacity: [0, 1, 0]
+                opacity: [0, 1, 0],
               }}
               transition={{
                 duration: 2,
                 repeat: Infinity,
-                delay: 0.5
+                delay: 0.5,
               }}
             />
             <motion.div
               className="absolute bottom-3 right-6 w-1 h-1 bg-white/30 rounded-full"
               animate={{
                 y: [2, 8, 2],
-                opacity: [0, 1, 0]
+                opacity: [0, 1, 0],
               }}
               transition={{
                 duration: 2.5,
                 repeat: Infinity,
-                delay: 1
+                delay: 1,
               }}
             />
           </div>
