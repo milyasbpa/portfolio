@@ -27,10 +27,10 @@ interface BlogProviderProps {
 
 export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
   // Simple locale detection - you can enhance this
-  const [locale] = React.useState("id"); // Default to Indonesian
-  
+  const [locale] = React.useState("en"); // Default to Indonesian
+
   const dictionaries = React.useMemo(() => {
-    return locale === "id" ? blog_id : blog_en;
+    return locale === "en" ? blog_en : blog_id;
   }, [locale]);
 
   const value = React.useMemo(

@@ -2,7 +2,7 @@ export const blog_en = {
   title: "Blog",
   subtitle: "Thoughts, tutorials, and insights",
   navigation: {
-    home: "← Back to Home",
+    home: "Back to Home",
     previous: "← Previous",
     next: "Next →"
   },

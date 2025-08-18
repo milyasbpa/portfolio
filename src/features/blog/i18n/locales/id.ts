@@ -2,7 +2,7 @@ export const blog_id = {
   title: "Blog",
   subtitle: "Pemikiran, tutorial, dan wawasan",
   navigation: {
-    home: "← Kembali ke Home",
+    home: "Kembali ke Home",
     previous: "← Sebelumnya",
     next: "Selanjutnya →"
   },
