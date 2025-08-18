@@ -310,7 +310,7 @@ export const BlogsHome = () => {
           whileTap={{ scale: 0.98 }}
         >
           <Link
-            href="/blog"
+            href="/blogs"
             className={clsx(
               "group relative overflow-hidden",
               "inline-flex items-center gap-4",
