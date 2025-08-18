@@ -30,12 +30,18 @@ export async function getAllBlogFiles(): Promise<string[]> {
 
     // Try multiple possible blog directories in order of preference
     const possiblePaths = [
-      path.join(process.cwd(), "src", "data", "blogs"), // src/data/blogs (most reliable in local)
-      path.join(process.cwd(), "public", "blog"),       // public/blog (traditional)
-      path.join(process.cwd(), ".next", "server", "chunks", "src", "data", "blogs"), // Vercel build path
-      path.join(process.cwd(), ".vercel", "source", "src", "data", "blogs"), // Vercel source path
-      path.resolve(__dirname, "../../../data/blogs"),   // Relative to this file
-      path.resolve(process.cwd(), "src", "data", "blogs"), // Absolute resolve
+      // Vercel serverless paths
+      path.join("/var/task", "src", "data", "blogs"),         // Vercel serverless /var/task
+      path.join("/var/task", "public", "blog"),               // Vercel public dir
+      path.join("/var/task", ".next", "server", "src", "data", "blogs"), // Next.js build
+      
+      // Local development paths
+      path.join(process.cwd(), "src", "data", "blogs"),       // Local src/data/blogs
+      path.join(process.cwd(), "public", "blog"),             // Local public/blog
+      
+      // Additional fallback paths
+      path.resolve(__dirname, "../../../data/blogs"),         // Relative to this file
+      path.resolve(process.cwd(), "src", "data", "blogs"),    // Absolute resolve
     ];
 
     console.log("🔍 Current working directory:", process.cwd());
@@ -77,20 +83,30 @@ async function getBlogDirectory(): Promise<string | null> {
   const path = await import("path");
 
   const possiblePaths = [
-    path.join(process.cwd(), "src", "data", "blogs"),
-    path.join(process.cwd(), "public", "blog"),
-    path.join(process.cwd(), "blog"),
+    // Vercel serverless paths
+    path.join("/var/task", "src", "data", "blogs"),         // Vercel serverless /var/task
+    path.join("/var/task", "public", "blog"),               // Vercel public dir
+    path.join("/var/task", ".next", "server", "src", "data", "blogs"), // Next.js build
+    
+    // Local development paths
+    path.join(process.cwd(), "src", "data", "blogs"),       // Local src/data/blogs
+    path.join(process.cwd(), "public", "blog"),             // Local public/blog
+    
+    // Additional fallback paths
+    path.resolve(__dirname, "../../../data/blogs"),         // Relative to this file
   ];
 
   for (const blogDirectory of possiblePaths) {
     try {
       await fs.access(blogDirectory);
+      console.log(`✅ Using blog directory:`, blogDirectory);
       return blogDirectory;
     } catch {
       continue;
     }
   }
 
+  console.error("❌ No accessible blog directory found");
   return null;
 }
 
