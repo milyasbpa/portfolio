@@ -34,8 +34,8 @@ export const AppContainer = ({ children }: AppContainer) => {
           className={clsx(
             "absolute",
             "top-0 left-0 right-0",
-            "bg-white dark:bg-[#171717]",
-            "opacity-80",
+            "bg-white/20 dark:bg-slate-900/30",
+            "backdrop-blur-lg border-b border-white/20 dark:border-slate-700/30",
             "w-full h-[calc(100%-2px)]"
           )}
         />

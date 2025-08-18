@@ -1,5 +1,5 @@
 "use client";
-type ActionMap<M extends { [index: string]: { [key: string]: any } }> = {
+type ActionMap<M extends { [index: string]: any }> = {
   [Key in keyof M]: M[Key] extends undefined
     ? {
         type: Key;
@@ -17,12 +17,13 @@ export interface AppInitialStateType {
 
 // State Collection Types consist of:
 export interface AppTheme {
-  mode: "dark" | "light";
+  mode: "dark" | "light" | "night";
 }
 
 export enum AppActionEnum {
   // Theme
   SetThemeData = "SetThemeData",
+  ToggleTheme = "ToggleTheme",
 }
 
 // Action Collection Types
@@ -32,6 +33,7 @@ export type AppActions = AppThemeActions;
 // Theme
 type AppThemePayload = {
   [AppActionEnum.SetThemeData]: AppTheme;
+  [AppActionEnum.ToggleTheme]: undefined;
 };
 
 export type AppThemeActions =
