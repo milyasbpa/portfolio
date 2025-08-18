@@ -195,7 +195,7 @@ export const HomeContainer = () => {
           )}
         >
           <div className={clsx(
-            "grid grid-cols-1 desktop:grid-cols-[300px_1fr] gap-8 desktop:gap-16"
+            "grid grid-cols-1 desktop:grid-cols-1 gap-8 desktop:gap-16"
           )}>
             {/* Sidebar - Hidden on mobile */}
             <div className="hidden desktop:block" />
