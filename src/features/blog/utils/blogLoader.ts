@@ -29,10 +29,41 @@ export async function getAllBlogFiles(): Promise<string[]> {
     const path = await import('path');
     
     const blogDirectory = path.join(process.cwd(), 'public', 'blog');
+    
+    // Check if directory exists
+    try {
+      await fs.access(blogDirectory);
+    } catch (accessError) {
+      console.error('Blog directory does not exist:', blogDirectory);
+      console.error('Current working directory:', process.cwd());
+      
+      // Try alternative paths that might work in Vercel
+      const altPaths = [
+        path.join(process.cwd(), 'blog'),
+        path.join(__dirname, '../../../../public/blog'),
+        path.join(__dirname, '../../../public/blog'),
+      ];
+      
+      for (const altPath of altPaths) {
+        try {
+          await fs.access(altPath);
+          console.log('Found blog directory at:', altPath);
+          const files = await fs.readdir(altPath);
+          return files.filter(file => file.endsWith('.md'));
+        } catch (altError) {
+          // Continue to next path
+        }
+      }
+      
+      return [];
+    }
+    
     const files = await fs.readdir(blogDirectory);
+    console.log('Found blog files:', files);
     return files.filter(file => file.endsWith('.md'));
   } catch (error) {
     console.error('Error reading blog directory:', error);
+    console.error('Error details:', error);
     return [];
   }
 }
