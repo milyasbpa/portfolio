@@ -9,5 +9,8 @@
   },
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
-  "trailingSlash": false
+  "trailingSlash": false,
+  "includeFiles": [
+    "src/data/blogs/**/*.md"
+  ]
 }

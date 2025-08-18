@@ -30,13 +30,17 @@ export async function getAllBlogFiles(): Promise<string[]> {
 
     // Try multiple possible blog directories in order of preference
     const possiblePaths = [
-      path.join(process.cwd(), "src", "data", "blogs"), // src/data/blogs (most reliable in Vercel)
+      path.join(process.cwd(), "src", "data", "blogs"), // src/data/blogs (most reliable in local)
       path.join(process.cwd(), "public", "blog"),       // public/blog (traditional)
-      path.join(process.cwd(), "blog"),                 // blog/ (alternative)
+      path.join(process.cwd(), ".next", "server", "chunks", "src", "data", "blogs"), // Vercel build path
+      path.join(process.cwd(), ".vercel", "source", "src", "data", "blogs"), // Vercel source path
+      path.resolve(__dirname, "../../../data/blogs"),   // Relative to this file
+      path.resolve(process.cwd(), "src", "data", "blogs"), // Absolute resolve
     ];
 
-    console.log("Current working directory:", process.cwd());
-    console.log("Trying blog directories:", possiblePaths);
+    console.log("🔍 Current working directory:", process.cwd());
+    console.log("🔍 __dirname:", __dirname);
+    console.log("🔍 Trying blog directories:", possiblePaths);
 
     for (const blogDirectory of possiblePaths) {
       try {
@@ -46,20 +50,21 @@ export async function getAllBlogFiles(): Promise<string[]> {
         
         if (mdFiles.length > 0) {
           console.log(`✅ Found ${mdFiles.length} blog files at:`, blogDirectory);
-          console.log("Blog files:", mdFiles);
+          console.log("📄 Blog files:", mdFiles);
           return mdFiles;
         }
         
         console.log(`⚠️  Directory exists but no .md files found:`, blogDirectory);
-      } catch {
-        console.log(`❌ Cannot access directory:`, blogDirectory);
+      } catch (accessError) {
+        const errorMsg = accessError instanceof Error ? accessError.message : String(accessError);
+        console.log(`❌ Cannot access directory:`, blogDirectory, errorMsg);
       }
     }
 
     console.error("❌ No blog directories found with .md files");
     return [];
   } catch (error) {
-    console.error("Error reading blog directory:", error);
+    console.error("💥 Error reading blog directory:", error);
     return [];
   }
 }
