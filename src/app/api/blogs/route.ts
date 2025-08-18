@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     
     // Additional file system debug
     const { promises: fs } = await import('fs');
-    const path = await import('path');
+    // const path = await import('path');
     
     try {
       const varTaskExists = await fs.access('/var/task').then(() => true).catch(() => false);
