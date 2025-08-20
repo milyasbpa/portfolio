@@ -6,36 +6,47 @@ import { getDictionaries } from "../../i18n";
 import { BlogCardHome } from "../../components/blog_card";
 import { GoArrowRight } from "react-icons/go";
 import { FaBlog, FaBookOpen, FaEdit, FaEye } from "react-icons/fa";
-import {
-  getBlogMetadataForClient,
-  formatDate,
-  type BlogMetadata,
-} from "@/features/blog/utils/blogClient";
+import type { BlogPostMeta } from "@/lib/content";
 
-export const BlogsHome = () => {
+// Format date for display - build time safe utility
+function formatDate(dateString: string, locale: 'en' | 'id' = 'id'): string {
+  try {
+    const date = new Date(dateString);
+    
+    if (locale === 'id') {
+      const months = [
+        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+      ];
+      
+      const day = date.getDate();
+      const month = months[date.getMonth()];
+      const year = date.getFullYear();
+      
+      return `${day} ${month} ${year}`;
+    } else {
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    }
+  } catch {
+    return dateString;
+  }
+}
+
+interface BlogsHomeProps {
+  blogs: BlogPostMeta[];
+}
+
+export const BlogsHome: React.FC<BlogsHomeProps> = ({ blogs }) => {
   const dictionaries = getDictionaries();
   const ref = React.useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  // State untuk blog data
-  const [blogs, setBlogs] = React.useState<BlogMetadata[]>([]);
-  const [loading, setLoading] = React.useState(true);
-
-  // Fetch blog data saat komponen dimount
-  React.useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const blogData = await getBlogMetadataForClient(4); // Limit 4 blog untuk homepage
-        setBlogs(blogData);
-      } catch (error) {
-        console.error("Error fetching blogs:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBlogs();
-  }, []);
+  // Use build-time data directly - no loading state needed
+  const displayBlogs = blogs.slice(0, 4); // Limit to 4 for homepage
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -175,13 +186,13 @@ export const BlogsHome = () => {
             {
               icon: FaBookOpen,
               label: "Articles",
-              value: `${blogs.length}+`,
+              value: `${displayBlogs.length}+`,
               color: "from-teal-500 to-cyan-600",
             },
             {
               icon: FaEdit,
               label: "Topics",
-              value: `${blogs.reduce(
+              value: `${displayBlogs.reduce(
                 (acc, blog) => acc + blog.tags.length,
                 0
               )}+`,
@@ -235,40 +246,8 @@ export const BlogsHome = () => {
         )}
         variants={containerVariants}
       >
-        {loading ? (
-          // Loading skeleton
-          Array.from({ length: 4 }).map((_, index) => (
-            <motion.div
-              key={`skeleton-${index}`}
-              variants={itemVariants}
-              className="relative"
-            >
-              <div
-                className={clsx(
-                  "w-full p-6 tablet:p-8",
-                  "bg-white/80 dark:bg-slate-800/80",
-                  "backdrop-blur-xl rounded-2xl tablet:rounded-3xl",
-                  "border border-white/30 dark:border-slate-600/30",
-                  "animate-pulse"
-                )}
-              >
-                <div className="grid grid-cols-[120px_1fr] gap-6 items-start">
-                  <div className="w-full h-16 bg-slate-200 dark:bg-slate-700 rounded-xl" />
-                  <div className="space-y-4">
-                    <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-3/4" />
-                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-full" />
-                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-2/3" />
-                    <div className="flex gap-2 pt-2">
-                      <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-20" />
-                      <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-24" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))
-        ) : blogs.length > 0 ? (
-          blogs.map((blog, blogIndex) => (
+        {displayBlogs.length > 0 ? (
+          displayBlogs.map((blog, blogIndex) => (
             <motion.div
               key={blog.slug}
               variants={itemVariants}
