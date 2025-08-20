@@ -4,9 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 7777",
+    "prebuild": "node scripts/build-content.js",
     "build": "next build",
+    "postbuild": "echo '✅ Build completed with content optimization'",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "content:generate": "node scripts/generate-blog-post.js",
+    "content:build": "node scripts/build-content.js",
+    "content:clean": "rm -rf .next/cache/content"
   },
   "dependencies": {
     "@types/markdown-it": "^14.1.2",
