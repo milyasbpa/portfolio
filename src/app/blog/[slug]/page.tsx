@@ -71,7 +71,7 @@ export async function generateMetadata({ params }: BlogSlugPageProps) {
 export default async function BlogSlugPage({ params }: BlogSlugPageProps) {
   const { slug } = await params;
 
-  // Verify the post exists at build time
+  // Get the post data at build time
   const post = await getBlogPostBySlug(slug);
   
   if (!post) {
@@ -80,7 +80,7 @@ export default async function BlogSlugPage({ params }: BlogSlugPageProps) {
 
   return (
     <BlogProvider>
-      <BlogContainer slug={slug} />
+      <BlogContainer slug={slug} post={post} />
     </BlogProvider>
   );
 }

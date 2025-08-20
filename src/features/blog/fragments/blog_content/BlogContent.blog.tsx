@@ -3,21 +3,61 @@ import clsx from "clsx";
 import { motion } from "framer-motion";
 import { FaClock, FaCalendarAlt, FaTag, FaUser } from "react-icons/fa";
 import { useBlogContext } from "../../i18n";
-import { getBlogBySlugForClient, formatDate, type BlogPost } from '../../utils/blogClient';
+import { getBlogBySlugForClient, type BlogPost as ClientBlogPost } from '../../utils/blogClient';
 import { renderMarkdown } from '../../utils/markdown';
+import type { BlogPost as BuildTimeBlogPost } from "@/lib/content";
 
 export interface BlogContentProps {
   slug?: string;
+  post?: BuildTimeBlogPost; // Build-time blog post data
 }
 
-export const BlogContent = ({ slug = "membangun-portfolio-modern" }: BlogContentProps) => {
+// Format date for display - build time safe utility
+function formatDateSafe(dateString: string, locale: 'en' | 'id' = 'id'): string {
+  try {
+    const date = new Date(dateString);
+    
+    if (locale === 'id') {
+      const months = [
+        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+      ];
+      
+      const day = date.getDate();
+      const month = months[date.getMonth()];
+      const year = date.getFullYear();
+      
+      return `${day} ${month} ${year}`;
+    } else {
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    }
+  } catch {
+    return dateString;
+  }
+}
+
+export const BlogContent = ({ slug = "membangun-portfolio-modern", post }: BlogContentProps) => {
   const { dictionaries } = useBlogContext();
-  const [blogPost, setBlogPost] = React.useState<BlogPost | null>(null);
-  const [loading, setLoading] = React.useState(true);
+  const [blogPost, setBlogPost] = React.useState<ClientBlogPost | BuildTimeBlogPost | null>(post || null);
+  const [loading, setLoading] = React.useState(!post); // No loading if we have build-time data
 
   React.useEffect(() => {
+    // If we already have build-time data, don't fetch
+    if (post) {
+      setBlogPost(post);
+      setLoading(false);
+      console.log('📦 Using build-time blog post data');
+      return;
+    }
+
+    // Fallback to runtime fetching if no build-time data
     const fetchBlogPost = async () => {
       try {
+        console.log('🔄 Fetching blog post at runtime (fallback)');
         const blogData = await getBlogBySlugForClient(slug);
         if (blogData) {
           setBlogPost(blogData);
@@ -33,10 +73,22 @@ export const BlogContent = ({ slug = "membangun-portfolio-modern" }: BlogContent
     };
 
     fetchBlogPost();
-  }, [slug]);
+  }, [slug, post]);
 
-  const formatContent = (content: string) => {
-    const htmlContent = renderMarkdown(content);
+  const formatContent = (post: ClientBlogPost | BuildTimeBlogPost) => {
+    // For SSG, always use markdown rendering to avoid MDX server-side issues
+    // The MDX content will be hydrated on client side if needed
+    let contentString = '';
+    
+    if ('_raw' in post) {
+      // Build-time post - use raw markdown content from file
+      contentString = post._raw?.sourceFileContent || post.content?.toString() || '';
+    } else {
+      // Runtime post - use content directly
+      contentString = typeof post.content === 'string' ? post.content : '';
+    }
+    
+    const htmlContent = renderMarkdown(contentString);
     
     return (
       <motion.div
@@ -114,7 +166,7 @@ export const BlogContent = ({ slug = "membangun-portfolio-modern" }: BlogContent
           
           <div className="flex items-center gap-2">
             <FaCalendarAlt className="w-4 h-4" />
-            <span>{dictionaries.meta.publishedAt} {formatDate(blogPost.publishedAt, 'id')}</span>
+            <span>{dictionaries.meta.publishedAt} {formatDateSafe(blogPost.publishedAt, 'id')}</span>
           </div>
           
           <div className="flex items-center gap-2">
@@ -162,7 +214,7 @@ export const BlogContent = ({ slug = "membangun-portfolio-modern" }: BlogContent
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.6 }}
       >
-        {formatContent(blogPost.content)}
+        {formatContent(blogPost)}
       </motion.div>
     </motion.article>
   );

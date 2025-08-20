@@ -51,6 +51,7 @@ export interface BlogPost {
     sourceFileDir: string;
     contentType: 'markdown';
     flattenedPath: string;
+    sourceFileContent: string; // Raw markdown content
   };
 }
 
@@ -190,6 +191,7 @@ async function parseContent(filePath: string, slug: string): Promise<{
     sourceFileDir: path.dirname(filePath),
     contentType: 'markdown' as const,
     flattenedPath: slug,
+    sourceFileContent: rawContent, // Add raw markdown content
   };
 
   return {
