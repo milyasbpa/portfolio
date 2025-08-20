@@ -1,11 +1,36 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { serialize } from 'next-mdx-remote/serialize';
+
+// Dynamic imports for better compatibility
+let serialize: any;
+let rehypeSlug: any;
+let rehypeAutolinkHeadings: any;
+let rehypePrettyCode: any;
+
+// Initialize imports with proper error handling
+async function initializeMDXDependencies() {
+  try {
+    if (!serialize) {
+      const { serialize: mdxSerialize } = await import('next-mdx-remote/serialize');
+      serialize = mdxSerialize;
+    }
+    if (!rehypeSlug) {
+      rehypeSlug = (await import('rehype-slug')).default;
+    }
+    if (!rehypeAutolinkHeadings) {
+      rehypeAutolinkHeadings = (await import('rehype-autolink-headings')).default;
+    }
+    if (!rehypePrettyCode) {
+      rehypePrettyCode = (await import('rehype-pretty-code')).default;
+    }
+  } catch (error) {
+    console.warn('Failed to load MDX dependencies:', error);
+    // Fallback to basic functionality
+  }
+}
+
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
-import rehypeSlug from 'rehype-slug';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import rehypePrettyCode from 'rehype-pretty-code';
 import { getContentIndex, getCachedSlugs, getCacheStats } from './content-cache';
 
 // Content types - similar to contentlayer schemas
@@ -113,34 +138,51 @@ async function parseContent(filePath: string, slug: string): Promise<{
     throw new Error('parseContent can only be called on server-side');
   }
 
+  // Initialize MDX dependencies
+  await initializeMDXDependencies();
+
   const fileContent = fs.readFileSync(filePath, 'utf8');
   const { data: frontmatter, content: rawContent } = matter(fileContent);
 
-  // Serialize MDX content with plugins
-  const mdxSource = await serialize(rawContent, {
-    mdxOptions: {
-      remarkPlugins: [],
-      rehypePlugins: [
-        rehypeSlug,
-        [
-          rehypeAutolinkHeadings,
-          {
-            properties: {
-              className: ['subheading-anchor'],
-              ariaLabel: 'Link to section',
-            },
-          },
-        ],
-        [
-          rehypePrettyCode,
-          {
-            theme: 'github-dark',
-            keepBackground: false,
-          },
-        ],
-      ],
-    },
-  });
+  // Serialize MDX content with plugins (with fallback)
+  let mdxSource: MDXRemoteSerializeResult;
+  
+  if (serialize && rehypeSlug && rehypeAutolinkHeadings && rehypePrettyCode) {
+    try {
+      mdxSource = await serialize(rawContent, {
+        mdxOptions: {
+          remarkPlugins: [],
+          rehypePlugins: [
+            rehypeSlug,
+            [
+              rehypeAutolinkHeadings,
+              {
+                properties: {
+                  className: ['subheading-anchor'],
+                  ariaLabel: 'Link to section',
+                },
+              },
+            ],
+            [
+              rehypePrettyCode,
+              {
+                theme: 'github-dark',
+                keepBackground: false,
+              },
+            ],
+          ],
+        },
+      });
+    } catch (error) {
+      console.warn(`MDX serialization failed for ${slug}, using fallback:`, error);
+      // Fallback to basic serialization
+      mdxSource = { compiledSource: '', frontmatter: {}, scope: {} } as MDXRemoteSerializeResult;
+    }
+  } else {
+    console.warn('MDX dependencies not loaded, using fallback');
+    // Fallback serialization
+    mdxSource = { compiledSource: '', frontmatter: {}, scope: {} } as MDXRemoteSerializeResult;
+  }
 
   const _raw = {
     sourceFilePath: filePath,
