@@ -46,6 +46,14 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function BlogsPage() {
-  return <BlogsContainer />;
+export default async function BlogsPage() {
+  // Get all blog posts at build time
+  const allBlogs = await getAllBlogPostsMeta();
+  
+  // Sort blogs by date (newest first)
+  const sortedBlogs = allBlogs.sort((a, b) => 
+    new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+
+  return <BlogsContainer blogs={sortedBlogs} />;
 }
