@@ -54,6 +54,19 @@ export const BlogsList: React.FC<BlogsListProps> = ({ blogs }) => {
     return filtered;
   }, [blogs, selectedTags, searchQuery]);
 
+  // Handle load more function with useCallback
+  const handleLoadMore = useCallback(async () => {
+    if (isLoadingMore || displayedItems >= filteredBlogs.length) return;
+    
+    setIsLoadingMore(true);
+    
+    // Simulate loading delay
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    setDisplayedItems(prev => Math.min(prev + ITEMS_PER_PAGE, filteredBlogs.length));
+    setIsLoadingMore(false);
+  }, [isLoadingMore, displayedItems, filteredBlogs.length]);
+
   const lastBlogElementRef = useCallback((node: HTMLDivElement | null) => {
     if (isLoadingMore) return;
     if (observerRef.current) observerRef.current.disconnect();
@@ -63,7 +76,7 @@ export const BlogsList: React.FC<BlogsListProps> = ({ blogs }) => {
       }
     });
     if (node) observerRef.current.observe(node);
-  }, [isLoadingMore, isMobile, displayedItems, filteredBlogs.length]);
+  }, [isLoadingMore, isMobile, displayedItems, filteredBlogs.length, handleLoadMore]);
 
   // Check if mobile on mount and resize
   useEffect(() => {
@@ -111,18 +124,6 @@ export const BlogsList: React.FC<BlogsListProps> = ({ blogs }) => {
     setCurrentPage(page);
     // Scroll to top of the page
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleLoadMore = async () => {
-    if (isLoadingMore || displayedItems >= filteredBlogs.length) return;
-    
-    setIsLoadingMore(true);
-    
-    // Simulate loading delay
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    setDisplayedItems(prev => Math.min(prev + ITEMS_PER_PAGE, filteredBlogs.length));
-    setIsLoadingMore(false);
   };
 
   const hasMore = displayedItems < filteredBlogs.length;

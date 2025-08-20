@@ -1,35 +1,24 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Enable static generation for better performance
-  output: 'standalone',
-  
   // External packages for server components
   serverExternalPackages: ['gray-matter', 'remark', 'rehype'],
   
-  // Webpack configuration for markdown and content files
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
+  // Webpack configuration for markdown files
+  webpack: (config, { dev }) => {
     // Handle markdown files
     config.module.rules.push({
       test: /\.md$/,
       use: 'raw-loader',
     });
     
-    // Optimize content loading for production builds
-    if (!dev && isServer) {
-      config.cache = {
-        type: 'filesystem',
-        buildDependencies: {
-          config: [__filename],
-        },
-      };
+    // Disable problematic cache in development
+    if (dev) {
+      config.cache = false;
     }
     
     return config;
   },
-  
-  // Enable static exports for better performance
-  trailingSlash: false,
   
   // Image optimization settings
   images: {
@@ -47,15 +36,6 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: '/api/blogs/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 's-maxage=3600, stale-while-revalidate=86400',
-          },
-        ],
-      },
-      {
         source: '/blog/:path*',
         headers: [
           {
@@ -65,6 +45,11 @@ const nextConfig: NextConfig = {
         ],
       },
     ];
+  },
+  
+  // Experimental features for better performance
+  experimental: {
+    optimizePackageImports: ['@/lib', '@/components'],
   },
 };
 

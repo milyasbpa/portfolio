@@ -2,6 +2,7 @@ import * as React from "react";
 import clsx from "clsx";
 import { getDictionaries } from "../i18n";
 import Link from "next/link";
+import Image from "next/image";
 
 export const NotFoundContainer = () => {
   const dictionaries = getDictionaries();
@@ -13,11 +14,14 @@ export const NotFoundContainer = () => {
       )}
     >
       <div className={clsx("relative")}>
-        <img
+        <Image
           src={dictionaries.container_image}
           alt={dictionaries.container_image_alt}
+          width={600}
+          height={400}
+          priority
         />
-        <img
+        <Image
           className={clsx(
             "absolute",
             "top-[18%] left-[50%]",
@@ -25,6 +29,8 @@ export const NotFoundContainer = () => {
           )}
           src={dictionaries.cable_image}
           alt={dictionaries.cable_image_alt}
+          width={200}
+          height={100}
         />
         <div
           className={clsx(
