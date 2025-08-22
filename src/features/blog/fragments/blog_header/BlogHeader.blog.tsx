@@ -20,17 +20,18 @@ export const BlogHeader = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+      <div className="w-full sm:container mx-auto px-3 sm:px-4 py-3 sm:py-4">
+        <div className="flex items-center gap-3 sm:gap-4">
           {/* Back to Home */}
           <Link
             href="/"
             className={clsx(
-              "group flex items-center gap-3 px-4 py-2",
+              "group flex items-center gap-2 px-2 sm:px-3 py-2",
               "text-slate-600 hover:text-indigo-600",
               "dark:text-slate-300 dark:hover:text-indigo-400",
               "transition-all duration-300",
-              "rounded-xl hover:bg-white/50 dark:hover:bg-slate-700/50"
+              "rounded-xl hover:bg-white/50 dark:hover:bg-slate-700/50",
+              "flex-shrink-0"
             )}
           >
             <motion.div
@@ -39,20 +40,23 @@ export const BlogHeader = () => {
             >
               <FaArrowLeft className="w-4 h-4" />
             </motion.div>
-            <span className="font-medium">{dictionaries.navigation.home}</span>
+            <span className="font-medium text-sm hidden sm:inline">
+              {dictionaries.navigation.home}
+            </span>
           </Link>
 
           {/* Blog Title */}
-          <div className="text-center">
+          <div className="flex-1 min-w-0">
             <h1 className={clsx(
-              "text-2xl font-bold",
+              "text-base sm:text-lg md:text-xl font-bold",
               "bg-gradient-to-r from-indigo-600 via-purple-600 to-teal-600",
               "dark:from-indigo-400 dark:via-purple-400 dark:to-teal-400",
-              "bg-clip-text text-transparent"
+              "bg-clip-text text-transparent",
+              "line-clamp-1"
             )}>
               {dictionaries.title}
             </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 line-clamp-1 hidden sm:block">
               {dictionaries.subtitle}
             </p>
           </div>
@@ -61,12 +65,13 @@ export const BlogHeader = () => {
           <Link
             href="/"
             className={clsx(
-              "p-3 rounded-xl",
+              "p-2 sm:p-3 rounded-xl flex-shrink-0",
               "bg-gradient-to-r from-indigo-500 to-purple-600",
               "hover:from-indigo-600 hover:to-purple-700",
               "text-white shadow-lg hover:shadow-xl",
               "transition-all duration-300",
-              "transform hover:scale-105"
+              "transform hover:scale-105",
+              "hidden sm:block"
             )}
           >
             <FaHome className="w-4 h-4" />
