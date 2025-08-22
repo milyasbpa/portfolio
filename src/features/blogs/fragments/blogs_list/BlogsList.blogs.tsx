@@ -129,23 +129,7 @@ export const BlogsList: React.FC<BlogsListProps> = ({ blogs }) => {
   const hasMore = displayedItems < filteredBlogs.length;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-12"
-      >
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-          All Articles
-        </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Explore our collection of {blogs.length} articles covering algorithms, data structures, 
-          and software development best practices.
-        </p>
-      </motion.div>
-
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
       {/* Filter */}
       <BlogFilter
         allTags={allTags}

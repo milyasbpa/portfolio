@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { BlogsList } from "../fragments";
+import { BlogsList, BlogsHeader } from "../fragments";
 import { getBlogMetadataForClient } from "@/features/blog/utils/blogClient";
 import type { BlogPostMeta } from "@/lib/content";
 
@@ -115,6 +115,7 @@ export const BlogsContainer: React.FC<BlogsContainerProps> = ({ blogs: propBlogs
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <BlogsHeader blogCount={blogs.length} />
       <BlogsList blogs={blogs} />
     </div>
   );
